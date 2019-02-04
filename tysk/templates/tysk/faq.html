@@ -1,0 +1,126 @@
+{% extends 'tysk/index.html' %}
+{% load static %}
+{% block title %}Тиск - питання{% endblock %}
+{% block header %}
+    <!-- Site header -->
+    <header class="site-header size-lg text-center" style="background-image: url({% static 'tysk/img/bg-banner1.jpg' %})">
+      <div class="container">
+          <div class="col-xs-12">
+              <h1 class="text-center">Питання що часто задаються</h1>
+              <p class="lead text-center">Можливо, ви знайдете відповідь на своє питання тут. Зв'яжіться з нами якщо ви не можете знайти те, що ви шукаєте.</p>
+              <div id="faq-search" class="form-group">
+                <i class="ti-search fa-flip-horizontal1"></i>
+                <input type="text" class="form-control" name="search" placeholder="Введіть запит для пошуку...">
+              </div>
+          </div>
+      </div>
+    </header>
+    <!-- END Site header -->
+{% endblock %}
+{% block content %}
+    <!-- Main container -->
+    <main id="faq-result">
+      <section>
+        <div class="container">
+          <header class="section-header text-left">
+            <span>Спільні питання</span>
+            <h2>Загальне</h2>
+          </header>
+
+          <ul class="faq-items">
+            <li>
+              <h5>Що таке Тиск?</h5>
+              <p>Цей сайт дозволяє зберігати за будь-який проміжок часу тиск, пульс та ліки, які Ви чи Ваші близьки приймали.</p>
+            </li>
+
+            <li>
+              <h5>Чому Тиск?</h5>
+              <p>Це дає змогу Вашему лікарю оцінити ефективність терапії.</p>
+            </li>
+
+            <li>
+              <h5>Що треба вміти?</h5>
+              <p>Треба вміти користуватися електронною поштою.</p>
+            </li>
+
+            <li>
+              <h5>Коли сайт почав працювать?</h5>
+              <p>Сайт розробляється.</p>
+            </li>
+
+            <li>
+              <h5>Do I need to know PHP to use Тиск?</h5>
+              <p>No.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+
+      <section class="bg-alt">
+        <div class="container">
+          <header class="section-header text-left">
+            <span>Старт</span>
+            <h2>Початок</h2>
+          </header>
+
+          <ul class="faq-items">
+            <li>
+              <h5>Як почати?</h5>
+                <p>Зареєструйтесь (Посилання <b>"реєстрація"</b> - зверху справа). Для цього треба мати електронну пошту. Придумати ім`я (наприклад, mom123) та пароль (наприклад, goood-day321). Бажано не використовувати пароль електронної пошти.</p>
+            </li>
+
+            <li>
+              <h5>Ваше питання 1.</h5>
+              <p>Відповідь.</p>
+            </li>
+
+            <li>
+              <h5>Ваше питання 2</h5>
+              <p>Відповідь.</p>
+            </li>
+
+            <li>
+              <h5>Ваше питання 3</h5>
+              <p>Відповідь.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+
+      <section>
+        <div class="container">
+          <header class="section-header text-left">
+            <span>Надійність</span>
+            <h2>Безпека</h2>
+          </header>
+
+          <ul class="faq-items">
+            <li>
+              <h5>Що таке проблема безпеки?</h5>
+              <p>Наприклад, Вам здається, що дані "зламані".</p>
+            </li>
+
+            <li>
+              <h5>Де можна повідомити про проблеми безпеки?</h5>
+              <p><a href="{% url 'tysk:contact' %}">Тут</a>.</p>
+            </li>
+
+            <li>
+              <h5>Я був зламаний. Що мені тепер робити?</h5>
+              <p>Повідомте з електронної пошти, яку Ви вказали при реєстрації.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+
+    </main>
+    <!-- END Main container -->
+{% endblock content %}
+{% block script %}
+    {{ block.super }}
+    <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+{% endblock script %}
+</body>

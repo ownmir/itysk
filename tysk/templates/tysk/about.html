@@ -1,0 +1,107 @@
+{% extends 'tysk/index.html' %}
+{% load static %}
+{% block title %}Тиск - Про{% endblock %}
+{% block header %}
+    <!-- Site header -->
+    <header class="page-header bg-img size-lg" style="background-image: url({% static 'tysk/img/bg-banner2.jpg' %})">
+      <div class="container no-shadow">
+        <h1 class="text-center">Про нас</h1>
+        <p class="lead text-center">Бажаємо Вам здоров`я!</p>
+      </div>
+    </header>
+    <!-- END Site header -->
+{% endblock %}
+{% block content %}
+    <!-- Main container -->
+    <main>
+      <!-- About -->
+      <section>
+        <div class="container">
+
+          <h5>Верстка та фронт-енд</h5>
+          <p>Jose Shams.</p>
+          <p>Володимир Фомін.</p>
+
+          <h5>Ідея та бєк-енд</h5>
+          <p>Володимир Фомін.</p>
+
+          <h5>Бізнес супроводження</h5>
+          <p>John Doe.</p>
+
+        </div>
+      </section>
+      <!-- END About -->
+
+
+
+      <!-- Team -->
+      <section class="bg-alt">
+        <div class="container">
+          <header class="section-header">
+            <span>Хто ми є</span>
+            <h2>Наша команда</h2>
+            <!--p>Зараз ми втрех</p-->
+          </header>
+
+        <div class="row equal-team-members">
+
+          <!-- Team member -->
+          <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="team-member">
+              <h5>Jose Shams <small>Front-end</small></h5>
+              <img src="{% static 'tysk/img/avatar-1.jpg' %}" alt="avatar">
+              <ul class="social-icons">
+                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+                <li><a class="instagram" href="#"><i class="fa fa-instagram"></i></a></li>
+              </ul>
+              <p>Сонечко :-)</p>
+            </div>
+          </div>
+          <!-- END Team member -->
+
+          <!-- Team member -->
+          <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="team-member">
+              <h5>Володимир Фомін <small>Back-end</small></h5>
+              <img src="{% static 'tysk/img/avatar-3.jpg' %}" alt="avatar">
+              <ul class="social-icons">
+                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+                <li><a class="instagram" href="#"><i class="fa fa-instagram"></i></a></li>
+              </ul>
+              <p>Сонце :-)</p>
+            </div>
+          </div>
+          <!-- END Team member -->
+
+          <!-- Team member -->
+          <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="team-member">
+              <h5>John Doe <small>Бізнес</small></h5>
+              <img src="{% static 'tysk/img/avatar-2.jpg' %}" alt="avatar">
+              <ul class="social-icons">
+                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+                <li><a class="instagram" href="#"><i class="fa fa-instagram"></i></a></li>
+              </ul>
+              <p>Зірка :-)</p>
+            </div>
+          </div>
+          <!-- END Team member -->
+
+        </div>
+
+        </div>
+      </section>
+      <!-- END Team -->
+
+
+
+    </main>
+    <!-- END Main container -->
+{% endblock content %}
+</body>

@@ -1,0 +1,35 @@
+{% extends 'tysk/user/user-login.html' %}
+{% load static%}
+{% block title %}Запит{% endblock %}
+{% block content %}
+<main>
+    <div class="login-block">
+        <img src="{% static 'tysk/img/logo.jpg' %}" id="click-me" alt="">
+        <h1>Запит на скидання пароля</h1>
+
+        <form action="#">
+
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="ti-email"></i></span>
+              <input type="text" class="form-control" placeholder="Електронна пошта">
+            </div>
+          </div>
+
+          <p>
+            <a href="mailto:ownsvit@ukr.net?subject=Скинути {{ user.username }} на пошту {{ user.email }}">
+                Запрос з Вашої поштової програми за замовчуванням
+            </a>
+        </p>
+        </form>
+      </div>
+
+      <div class="login-links">
+        <p class="text-center"><a href="{% url 'tysk:login' %}">Назад до входу</a></p>
+      </div>
+</main>
+{% endblock content %}
+{% block script %}
+    {{ block.super }}
+{% endblock %}
+</body>

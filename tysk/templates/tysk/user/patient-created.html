@@ -1,0 +1,31 @@
+{% extends 'tysk/index.html' %}
+{% load static %}
+{% block title %}Тиск - Пацієнта створено.{% endblock %}
+{% block header %}
+    <!-- Site header -->
+    <header class="page-header bg-img size-lg" style="background-image: url({% static 'tysk/img/bg-banner2.jpg' %})">
+      <div class="container no-shadow">
+        <h1 class="text-center">Поздоровляємо!</h1>
+        <p class="lead text-center">Пацієнта створено!</p>
+      </div>
+    </header>
+    <!-- END Site header -->
+{% endblock %}
+{% block content %}
+    <!-- Main container -->
+    <main>
+      <!-- User exists -->
+      <section>
+          <img src="{% static 'tysk/img/logo.jpg' %}" id="click-me" alt="">
+          <p></p>
+      </section>
+      <!-- END User exists -->
+      <div class="login-links">
+          {#<a class="pull-left" href="{% url 'tysk:forget-password' %}">Забули пароль?</a>#}
+          <p class="text-left"><a class="txt-brand" href="{% url 'tysk:register' %}">Регістрація</a></p>
+          <p class="text-left"><a class="txt-brand" href="{% url 'tysk:index' %}">На початкову</a>
+      </div>
+    </main>
+    <!-- END Main container -->
+{% endblock content %}
+</body>

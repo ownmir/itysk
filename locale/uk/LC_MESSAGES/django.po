@@ -1,0 +1,896 @@
+# This file is distributed under the same license as the Django package.
+#
+# Translators:
+# Alexander Chernihov <aleksandr.chernigov@gmail.com>, 2014
+# Boryslav Larin <brabadu@gmail.com>, 2011
+# Igor Melnyk, 2014
+# Jannis Leidel <jannis@leidel.info>, 2011
+# Max V. Stotsky <transifex@ms.pereslavl.ru>, 2014
+# Mykola Zamkovoi <nickzam@gmail.com>, 2014
+# Sergiy Kuzmenko <s.kuzmenko@gmail.com>, 2011
+msgid ""
+msgstr ""
+"Project-Id-Version: django\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-05-20 18:11+0300\n"
+"PO-Revision-Date: 2015-01-18 08:31+0000\n"
+"Last-Translator: Jannis Leidel <jannis@leidel.info>\n"
+"Language-Team: Ukrainian (http://www.transifex.com/projects/p/django/"
+"language/uk/)\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: .\diary\admin.py:20
+msgid "Diary administration"
+msgstr "Адміністрування щоденника"
+
+#: .\diary\admin.py:21
+msgid "Diary site admin"
+msgstr "Адміністрування щоденника"
+
+#: .\diary\admin.py:22
+msgid "Site administration"
+msgstr "Адміністрування сайта"
+
+#: .\diary\admin.py:37
+msgid "Diary day and user"
+msgstr "День та користувач"
+
+#: .\diary\admin.py:38
+msgid "Lesson information"
+msgstr "Інформація про урок"
+
+#: .\diary\admin.py:53
+msgid "Operation date"
+msgstr "Робоча дата"
+
+#: .\diary\admin.py:54
+msgid "days ego/front"
+msgstr "дні до/вперед"
+
+#: .\diary\admin.py:55
+msgid "previous/following operation date"
+msgstr "попередня/наступна робоча дата"
+
+#: .\diary\models.py:22
+msgid "diary day"
+msgstr "день щоденника"
+
+#: .\diary\models.py:23
+msgid "diary days"
+msgstr "дні щоденника"
+
+#: .\diary\models.py:25
+msgid "Work date"
+msgstr "Робоча дата"
+
+#: .\diary\models.py:26
+msgid "Show days before the operation date"
+msgstr "Показати днів до робочої дати"
+
+#: .\diary\models.py:28
+msgid "Show days after the operation date"
+msgstr "Показати днів після робочої дати"
+
+#: .\diary\models.py:30
+msgid "Previous operation date"
+msgstr "Попередня робоча дата"
+
+#: .\diary\models.py:31
+msgid "Following operation date"
+msgstr "Наступна робоча дата"
+
+#: .\diary\models.py:33
+msgid "holiday"
+msgstr "неробочий день"
+
+#: .\diary\models.py:98
+msgid "Name of subject"
+msgstr "Назва предмета"
+
+#: .\diary\models.py:110
+msgid "country name"
+msgstr "назва країни"
+
+#: .\diary\models.py:116
+msgid "country"
+msgstr "країна"
+
+#: .\diary\models.py:117
+msgid "countries"
+msgstr "країни"
+
+#: .\diary\models.py:121 .\diary\models.py:239
+msgid "type of user"
+msgstr "тип користувача"
+
+#: .\diary\models.py:127
+msgid "type of users"
+msgstr "тип користувачів"
+
+#: .\diary\models.py:128
+msgid "types of users"
+msgstr "типи користувачів"
+
+#: .\diary\models.py:136
+msgid "Users must have an username"
+msgstr "Користувачі повинні мати ім'я користувача"
+
+#: .\diary\models.py:162
+msgid "username"
+msgstr "ім`я користувача"
+
+#: .\diary\models.py:165
+msgid "Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only."
+msgstr "Вимагається. 30 символів або менше. Букви, цифри і @/./+/-/_"
+
+#: .\diary\models.py:169
+msgid ""
+"Enter a valid username. This value may contain only letters, numbers and @/./"
+"+/-/_ characters."
+msgstr ""
+"Введіть дійсне ім'я користувача. Це значення може містити тільки літери, "
+"цифри і @/./+/-/_"
+
+#: .\diary\models.py:174
+msgid "A user with that username already exists."
+msgstr "Користувач із таким ім'ям вже існує."
+
+#: .\diary\models.py:177
+msgid "first name"
+msgstr "ім'я"
+
+#: .\diary\models.py:178
+msgid "middle name"
+msgstr "по батькові"
+
+#: .\diary\models.py:179
+msgid "last name"
+msgstr "прізвище"
+
+#: .\diary\models.py:180
+msgid "email address"
+msgstr "Email адреса:"
+
+#: .\diary\models.py:182
+msgid "staff status"
+msgstr "статус персоналу"
+
+#: .\diary\models.py:184
+msgid "Designates whether the user can log into this admin site."
+msgstr "Позначає, чи може користувач увійти в цей сайт адміністратора."
+
+#: .\diary\models.py:187
+msgid "active"
+msgstr "активний"
+
+#: .\diary\models.py:190
+msgid ""
+"Designates whether this user should be treated as active. Unselect this "
+"instead of deleting accounts."
+msgstr ""
+"Позначає, чи повинен користувач розглядатися як активний. Скасуйте це, "
+"замість видалення облікових записів."
+
+#: .\diary\models.py:194
+msgid "date of birthday"
+msgstr "день народження"
+
+#: .\diary\models.py:195
+msgid "date joined"
+msgstr "дата приєднання"
+
+#: .\diary\models.py:203
+msgid "diary user"
+msgstr "користувач щоденника"
+
+#: .\diary\models.py:204
+msgid "diary users"
+msgstr "користувачі щоденника"
+
+#: .\diary\models.py:247
+msgid "kind of locality"
+msgstr "вид населеного пункта"
+
+#: .\diary\models.py:248
+msgid "Full name"
+msgstr "Повна назва"
+
+#: .\diary\models.py:266
+msgid "locality"
+msgstr "населений пункт"
+
+#: .\diary\models.py:267
+msgid "localities"
+msgstr "населені пункти"
+
+#: .\diary\models.py:272
+msgid "region name"
+msgstr "назва області"
+
+#: .\diary\models.py:288
+msgid "district name"
+msgstr "назва района"
+
+#: .\diary\models.py:294
+msgid "district"
+msgstr "район"
+
+#: .\diary\models.py:295
+msgid "districts"
+msgstr "райони"
+
+#: .\diary\models.py:299
+msgid "kind of school name"
+msgstr "назва вида школи"
+
+#: .\diary\models.py:305
+msgid "kind of school"
+msgstr "вид школи"
+
+#: .\diary\models.py:306
+msgid "kinds of schools"
+msgstr "види шкіл"
+
+#: .\diary\models.py:311
+msgid "School number"
+msgstr "номер школи"
+
+#: .\diary\models.py:317
+msgid "school"
+msgstr "школа"
+
+#: .\diary\models.py:318
+msgid "schools"
+msgstr "школи"
+
+#: .\diary\models.py:322
+msgid "number of class"
+msgstr "номер класа"
+
+#: .\diary\models.py:323
+msgid "letter"
+msgstr "літера"
+
+#: .\diary\models.py:329 .\diary\models.py:341
+msgid "class"
+msgstr "клас"
+
+#: .\diary\models.py:330
+msgid "classes"
+msgstr "класи"
+
+#: .\diary\models.py:347 .\diary\models.py:348
+msgid "options of current user"
+msgstr "налаштування поточного користувача"
+
+#: .\diary\models.py:358
+msgid "subject"
+msgstr "предмет"
+
+#: .\diary\models.py:359
+msgid "subjects"
+msgstr "предмети"
+
+#: .\diary\models.py:363
+msgid "Type of lesson name"
+msgstr "назва типу уроку"
+
+#: .\diary\models.py:369
+msgid "type of lesson"
+msgstr "тип уроку"
+
+#: .\diary\models.py:370
+msgid "types of lessons"
+msgstr "типи уроків"
+
+#: .\diary\models.py:374
+msgid "post name"
+msgstr "назва посади"
+
+#: .\diary\models.py:380
+msgid "post"
+msgstr "посада"
+
+#: .\diary\models.py:381
+msgid "posts"
+msgstr "посади"
+
+#: .\diary\models.py:392
+msgid "teacher"
+msgstr "учитель"
+
+#: .\diary\models.py:393
+msgid "teachers"
+msgstr "вчителі"
+
+#: .\diary\models.py:414
+msgid "page of diary"
+msgstr "сторінка щоденника"
+
+#: .\diary\models.py:415
+msgid "pages of diary"
+msgstr "сторінки щоденника"
+
+#: .\diary\templates\diary\day.html:7
+msgid "Date"
+msgstr "Дата"
+
+#: .\diary\templates\diary\day.html:9 .\diary\templates\diary\day.html:43
+msgid "Add new"
+msgstr "Додати новий"
+
+#: .\diary\templates\diary\day.html:15
+msgid "Subject"
+msgstr "Предмет"
+
+#: .\diary\templates\diary\day.html:16
+msgid "Type of lesson"
+msgstr "Тип уроку"
+
+#: .\diary\templates\diary\day.html:17
+msgid "Teacher"
+msgstr "Учитель"
+
+#: .\diary\templates\diary\day.html:18
+msgid "Homework"
+msgstr "Домашнє завдання"
+
+#: .\diary\templates\diary\day.html:19
+msgid "Mark"
+msgstr "Оцінка"
+
+#: .\diary\templates\diary\day.html:20
+msgid "Comment"
+msgstr "Коментар"
+
+#: .\diary\templates\diary\day.html:40
+msgid "No days of diary are available."
+msgstr "Немає днів щоденника"
+
+#: .\diary\templates\diary\tmpRegister.html:8
+msgid "You are not login."
+msgstr "Ви не ввійшли."
+
+#: .\diary\templates\diary\tmpRegister.html:8
+msgid "Login."
+msgstr "Ввійдіть"
+
+#: .\diary\templates\diary\tmpRegister.html:9
+msgid "Then click \"View site\""
+msgstr "Потім натисніть \"Дивитися сайт\""
+
+#: .\diary\templates\diary\toggle_body.html:14
+msgid "Dairy"
+msgstr "Щоденник"
+
+#: .\diary\templates\diary\toggle_body.html:18
+msgid "Today"
+msgstr "Сьогодні"
+
+#: .\diary\templates\diary\toggle_body.html:36
+msgid "Period"
+msgstr "Період"
+
+#: .\diary\templates\diary\toggle_body.html:37
+msgid "Current week"
+msgstr "Поточний тиждень"
+
+#: .\diary\templates\diary\toggle_body.html:38
+msgid "Last two weeks"
+msgstr "Два тижня"
+
+#: .\diary\templates\diary\toggle_body.html:39
+msgid "Last month"
+msgstr "Цього місяця"
+
+#: .\diary\templates\diary\toggle_body.html:40
+msgid "Last semester"
+msgstr "Останній семестр"
+
+#: .\diary\templates\diary\toggle_body.html:41
+msgid "Last year"
+msgstr "Цього року"
+
+#: .\diary\templates\diary\toggle_body.html:46
+msgid "User"
+msgstr "Користувач"
+
+#: .\diary\templates\diary\toggle_body.html:48
+msgid "Options of current user"
+msgstr "Налаштування поточного користувача"
+
+#: .\diary\templates\diary\toggle_body.html:49
+msgid "Change password"
+msgstr "Змінити пароль"
+
+#: .\diary\templates\diary\toggle_body.html:50
+msgid "Log out"
+msgstr "Вийти"
+
+#: .\diary\templates\diary\toggle_body.html:53
+#: .\task\templates\task\classv.html:41
+msgid "References"
+msgstr "Довідники"
+
+#: .\diary\templates\diary\toggle_body.html:54
+msgid "List of subjects"
+msgstr "Перелік предметів"
+
+#: .\diary\templates\diary\toggle_body.html:55
+msgid "Subjects"
+msgstr "Предмети"
+
+#: .\diary\templates\diary\toggle_body.html:58
+msgid "List of classes"
+msgstr "Перелік класів"
+
+#: .\diary\templates\diary\toggle_body.html:59
+msgid "Classes"
+msgstr "Класи"
+
+#: .\diary\templates\diary\toggle_body.html:60
+msgid "List of kinds of schools"
+msgstr "Перелік видів шкіл"
+
+#: .\diary\templates\diary\toggle_body.html:61
+msgid "Kinds of schools"
+msgstr "Види шкіл"
+
+#: .\diary\templates\diary\toggle_body.html:62
+msgid "List of schools"
+msgstr "Перелік шкіл"
+
+#: .\diary\templates\diary\toggle_body.html:63
+msgid "Schools"
+msgstr "Школи"
+
+#: .\diary\templates\diary\toggle_body.html:64
+msgid "List of posts of teachers"
+msgstr "Перелік посад вчителів"
+
+#: .\diary\templates\diary\toggle_body.html:65
+msgid "Posts of teachers"
+msgstr "Посади вчителів"
+
+#: .\diary\templates\diary\toggle_body.html:66
+msgid "List of teachers"
+msgstr "Перелік вчителів"
+
+#: .\diary\templates\diary\toggle_body.html:67
+msgid "Teachers"
+msgstr "Вчителі"
+
+#: .\diary\templates\diary\toggle_body.html:68
+msgid "List of kinds of localities"
+msgstr "Перелік видів населених пунктів"
+
+#: .\diary\templates\diary\toggle_body.html:69
+msgid "Kinds of localities"
+msgstr "Види населених пунктів"
+
+#: .\diary\templates\diary\toggle_body.html:70
+msgid "List of localities"
+msgstr "Перелік місцевостей"
+
+#: .\diary\templates\diary\toggle_body.html:71
+msgid "Localities"
+msgstr "Населені пункти"
+
+#: .\diary\templates\diary\toggle_body.html:72
+msgid "List of districts"
+msgstr "Перелік районів"
+
+#: .\diary\templates\diary\toggle_body.html:73
+msgid "Districts"
+msgstr "Райони"
+
+#: .\diary\templates\diary\toggle_body.html:74
+msgid "List of regions"
+msgstr "Перелік областей"
+
+#: .\diary\templates\diary\toggle_body.html:75
+msgid "Regions"
+msgstr "Області"
+
+#: .\diary\templates\diary\toggle_body.html:76
+msgid "List of countries"
+msgstr "Перелік країн"
+
+#: .\diary\templates\diary\toggle_body.html:77
+msgid "Countries"
+msgstr "Країни"
+
+#: .\diary\templates\diary\toggle_body.html:78
+msgid "List of types of lessons"
+msgstr "Перелік видів уроків"
+
+#: .\diary\templates\diary\toggle_body.html:79
+msgid "Types of lessons"
+msgstr "Види уроків"
+
+#: .\diary\templates\diary\toggle_body.html:80
+msgid "List of types of users"
+msgstr "Перелік типів користувачів"
+
+#: .\diary\templates\diary\toggle_body.html:81
+msgid "Types of users"
+msgstr "Типи користувачів"
+
+#: .\diary\views.py:48
+msgid "Edit current user"
+msgstr "Зміна поточного користувача"
+
+#: .\diary\views.py:57
+msgid "Edit country"
+msgstr "Редагувати країну"
+
+#: .\diary\views.py:62
+msgid "Edit locality"
+msgstr "Редагувати населений пункт"
+
+#: .\diary\views.py:66 .\diary\views.py:73
+msgid "Edit district"
+msgstr "Редагувати район"
+
+#: .\diary\views.py:67
+msgid "Edit region"
+msgstr "Редагувати область"
+
+#: .\diary\views.py:78
+msgid "Edit school"
+msgstr "Редагувати школу"
+
+#: .\diary\views.py:83
+msgid " клас"
+msgstr ""
+
+#: .\diary\views.py:84
+msgid "Edit class"
+msgstr "Редагувати клас"
+
+#: .\diary\views.py:91
+msgid "No Calendar matches the given query. Enter it."
+msgstr "Немає дня календаря, який відповідає заданому запиту. Введіть його."
+
+#: .\itask\settings.py:113
+msgid "English"
+msgstr ""
+
+#: .\itask\settings.py:114
+msgid "Ukrainian"
+msgstr ""
+
+#: .\task\templates\task\base.html:12
+msgid ""
+"\n"
+"            <h1 class=\"text-center\">Helpful study site \"whirligig\"</h1>\n"
+"        "
+msgstr ""
+
+#: .\task\templates\task\base.html:24
+msgid ""
+"\n"
+"            <p>Thanks for visiting my site. 2016 y.</p>\n"
+"        "
+msgstr ""
+
+#: .\task\templates\task\classv.html:30
+#, fuzzy
+#| msgid "Welcome,"
+msgid "A Warm Welcome!"
+msgstr "Вітаємо!"
+
+#: .\task\templates\task\classv.html:31
+msgid "...And yet it moves."
+msgstr "...А все-таки вона обертається"
+
+#: .\task\templates\task\classv.html:32
+msgid "Call to action!"
+msgstr "До дії!"
+
+#: .\task\templates\task\classv.html:57 .\task\templates\task\classv.html:80
+#: .\task\templates\task\classv.html:115 .\task\templates\task\classv.html:156
+msgid "View Now!"
+msgstr "Дивитися зараз"
+
+#: .\task\templates\task\classv.html:58
+#, fuzzy
+#| msgid "Add %s"
+msgid "Add state"
+msgstr "Додати стан"
+
+#: .\task\templates\task\classv.html:81
+msgid "Add Completion"
+msgstr "Додати код завершення"
+
+#: .\task\templates\task\classv.html:95
+#: .\task\templates\task\state_detail.html:4
+#: .\task\templates\task\state_form.html:4
+#: .\task\templates\task\state_update.html:4
+msgid "State"
+msgstr "Стан"
+
+#: .\task\templates\task\classv.html:96
+#: .\task\templates\task\completion_detail.html:4
+#: .\task\templates\task\completion_detail.html:8
+#: .\task\templates\task\completion_form.html:4
+#: .\task\templates\task\completion_update.html:4
+msgid "Completion"
+msgstr "Код завершення"
+
+#: .\task\templates\task\classv.html:104
+msgid "Basic features"
+msgstr "Основні функції"
+
+#: .\task\templates\task\classv.html:116
+#, fuzzy
+#| msgid "Add %s"
+msgid "Add task"
+msgstr "Додати задачу"
+
+#: .\task\templates\task\classv.html:121
+msgid "Task - "
+msgstr "Задача - "
+
+#: .\task\templates\task\classv.html:124
+msgid "closed - "
+msgstr "закрита"
+
+#: .\task\templates\task\classv.html:128
+msgid "View process"
+msgstr "Переглянути процес"
+
+#: .\task\templates\task\classv.html:154
+#: .\task\templates\task\process_detail.html:4
+#: .\task\templates\task\process_form.html:4
+#: .\task\templates\task\process_update.html:4
+msgid "Process"
+msgstr "Процес"
+
+#: .\task\templates\task\classv.html:157
+msgid "TASK"
+msgstr "ЗАДАЧА"
+
+#: .\task\templates\task\classv.html:161
+msgid "Add process"
+msgstr "Додати процесс"
+
+#: .\task\templates\task\classv\about.html:4
+#: .\task\templates\task\mainmenu.html:39
+msgid "About"
+msgstr "Про"
+
+#: .\task\templates\task\classv\about.html:6
+msgid "Autor Vladimir Fomin"
+msgstr "Автор Володимир Фомін"
+
+#: .\task\templates\task\classv\about.html:7
+msgid "Wait for your questions on email"
+msgstr "Чекаємо на Ваші запитання по електронній пошті"
+
+#: .\task\templates\task\classv\about.html:10
+#: .\task\templates\task\completion_detail.html:14
+#: .\task\templates\task\completion_form.html:17
+#: .\task\templates\task\completion_list.html:18
+#: .\task\templates\task\completion_update.html:17
+#: .\task\templates\task\process_detail.html:19
+#: .\task\templates\task\process_form.html:17
+#: .\task\templates\task\process_list.html:22
+#: .\task\templates\task\process_update.html:17
+#: .\task\templates\task\state_detail.html:14
+#: .\task\templates\task\state_form.html:17
+#: .\task\templates\task\state_list.html:19
+#: .\task\templates\task\state_update.html:17
+#: .\task\templates\task\task_detail.html:27
+#: .\task\templates\task\task_form.html:17
+#: .\task\templates\task\task_list.html:19
+#: .\task\templates\task\task_update.html:17
+msgid "Main"
+msgstr ""
+
+#: .\task\templates\task\classv\about.html:11
+#: .\task\templates\task\completion_detail.html:15
+#: .\task\templates\task\completion_form.html:18
+#: .\task\templates\task\completion_list.html:20
+#: .\task\templates\task\completion_update.html:18
+#: .\task\templates\task\process_detail.html:20
+#: .\task\templates\task\process_form.html:18
+#: .\task\templates\task\process_list.html:24
+#: .\task\templates\task\process_update.html:18
+#: .\task\templates\task\state_detail.html:15
+#: .\task\templates\task\state_form.html:18
+#: .\task\templates\task\state_list.html:21
+#: .\task\templates\task\state_update.html:18
+#: .\task\templates\task\task_detail.html:28
+#: .\task\templates\task\task_form.html:18
+#: .\task\templates\task\task_list.html:21
+#: .\task\templates\task\task_update.html:18
+msgid "In store"
+msgstr ""
+
+#: .\task\templates\task\completion_form.html:8
+msgid "New completion"
+msgstr "Новий код завершення"
+
+#: .\task\templates\task\completion_form.html:11
+#: .\task\templates\task\process_form.html:11
+#: .\task\templates\task\state_form.html:11
+#: .\task\templates\task\task_form.html:11
+msgid "Create"
+msgstr "Зтворити"
+
+#: .\task\templates\task\completion_list.html:4
+msgid "Completions"
+msgstr "Коди завершення"
+
+#: .\task\templates\task\completion_list.html:8
+msgid "List of completions"
+msgstr "Перлік кодів завершення"
+
+#: .\task\templates\task\completion_list.html:11
+#: .\task\templates\task\process_list.html:12
+#: .\task\templates\task\state_list.html:11
+#: .\task\templates\task\task_list.html:11
+msgid "Edit"
+msgstr "Редагувати"
+
+#: .\task\templates\task\completion_list.html:19
+#: .\task\templates\task\process_list.html:23
+#: .\task\templates\task\state_list.html:20
+#: .\task\templates\task\task_list.html:20
+msgid "Add"
+msgstr "Додати"
+
+#: .\task\templates\task\completion_update.html:8
+msgid "Update completion"
+msgstr "Змінити"
+
+#: .\task\templates\task\completion_update.html:11
+#: .\task\templates\task\process_update.html:11
+#: .\task\templates\task\state_update.html:11
+#: .\task\templates\task\task_update.html:11
+msgid "Save"
+msgstr "Зберегти"
+
+#: .\task\templates\task\contact.html:11
+msgid ""
+"\n"
+"        <h1>Contact</h1>\n"
+"    "
+msgstr ""
+
+#: .\task\templates\task\contact.html:51
+#, python-format
+msgid ""
+"\n"
+"            %(form.message.errors)s\n"
+"          "
+msgstr ""
+
+#: .\task\templates\task\contact.html:80
+msgid "Send"
+msgstr "Надіслати"
+
+#: .\task\templates\task\mainmenu.html:42
+msgid "Services"
+msgstr ""
+
+#: .\task\templates\task\mainmenu.html:45
+msgid "Contact"
+msgstr "Контакт"
+
+#: .\task\templates\task\process_detail.html:8
+msgid "Process:"
+msgstr "Процес"
+
+#: .\task\templates\task\process_detail.html:13
+#: .\task\templates\task\state_detail.html:8
+#: .\task\templates\task\task_detail.html:17
+msgid "State:"
+msgstr "Стан"
+
+#: .\task\templates\task\process_form.html:8
+msgid "New process"
+msgstr "Новий процес"
+
+#: .\task\templates\task\process_list.html:8
+msgid "List of processes for task "
+msgstr "Перелік процесів для задачі "
+
+#: .\task\templates\task\process_update.html:8
+msgid "Update process"
+msgstr "Змінити"
+
+#: .\task\templates\task\run_task.html:28
+msgid "Run tasks"
+msgstr "Виконати задачі"
+
+#: .\task\templates\task\run_task.html:43
+msgid "Run task"
+msgstr "Виконати задачу"
+
+#: .\task\templates\task\run_task.html:61
+msgid "Run process"
+msgstr "Виконати процес"
+
+#: .\task\templates\task\start_run_process.html:28
+#: .\task\templates\task\start_run_process.html:30
+#: .\task\templates\task\start_run_task.html:28
+#: .\task\templates\task\start_run_task.html:30
+msgid "Back"
+msgstr "Повернутись"
+
+#: .\task\templates\task\state_form.html:8
+msgid "New state"
+msgstr "Новий стан"
+
+#: .\task\templates\task\state_list.html:8
+msgid "List of states"
+msgstr "Перелік станів"
+
+#: .\task\templates\task\state_update.html:8
+msgid "Update state"
+msgstr "Змінити"
+
+#: .\task\templates\task\task_detail.html:4
+#: .\task\templates\task\task_form.html:4
+#: .\task\templates\task\task_update.html:4
+msgid "Task"
+msgstr "Задача"
+
+#: .\task\templates\task\task_detail.html:8
+msgid "Task:"
+msgstr "Задача:"
+
+#: .\task\templates\task\task_form.html:8
+msgid "New task for user "
+msgstr "Нова задача для користувача"
+
+#: .\task\templates\task\task_list.html:8
+msgid "List of tasks"
+msgstr "Перелік задач"
+
+#: .\task\templates\task\task_update.html:8
+msgid "Update task"
+msgstr "Змінити"
+
+#: .\templates\404.html:5
+msgid "The current date is not in the calendar. Enter day of diary"
+msgstr "Поточної дати немає в календарі. Введіть день щоденника"
+
+#: .\templates\admin\diary\app_index.html:9
+msgid "Home"
+msgstr "Домівка"
+
+#: .\templates\admin\diary\change_form.html:5
+msgid "To default"
+msgstr "За замовчуванням"
+
+msgid "kinds of localities"
+msgstr "види населених пунктів"
+
+#~ msgid "Class"
+#~ msgstr "Клас"
+
+#~ msgid "Post"
+#~ msgstr "посада"
+
+#~ msgid "Type of users"
+#~ msgstr "Типи користувачів"
+
+msgid "Diary"
+msgstr "Щоденник"
+
+msgid "region city"
+msgstr "обласний центр"
+
+msgid "region"
+msgstr "область"
+
+msgid "regions"
+msgstr "області"

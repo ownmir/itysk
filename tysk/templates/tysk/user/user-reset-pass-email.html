@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>user reset password email</title>
+</head>
+<body>
+    {% autoescape off %}
+    Для того, щоб ініціювати процес скидання пароля для ваc {{ user.get_username }},
+    перейдіть:
+
+    {{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
+
+    Якщо посилання вище не працює, будь ласка, скопіюйте та вставте URL в новому вікні браузера замість цього.
+
+    З повагою,
+    команда Тиск
+    {% endautoescape %}
+</body>
+</html>

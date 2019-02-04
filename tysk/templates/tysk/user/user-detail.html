@@ -1,0 +1,31 @@
+{% extends 'tysk/user/user-login.html' %}
+{% load static%}
+{% block title %}Тиск - Користувач{% endblock %}
+{% block content %}
+<main>
+    <div class="login-block">
+        <img src="{% static 'tysk/img/logo.jpg' %}" id="click-me" alt="">
+
+        <h1>last_name - {{ user.last_name }} ({{ user.username }})</h1>
+        <ul>
+            <li>username - {{ user.username }}</li>
+            <li>first_name - {{ user.first_name }}</li>
+            <li>last_name - {{ user.last_name }}</li>
+            <li>email - {{ user.email }}</li>
+            <li>is_staff - {{ user.is_staff }}</li>
+            <li>is_active - {{ user.is_active }}</li>
+            <li>is_superuser - {{ user.is_superuser }}</li>
+            <li>last_login - {{ user.last_login }}</li>
+            <li>date_joined - {{ user.date_joined }}</li>
+        </ul>
+    </div>
+
+      <div class="login-links">
+        <p class="text-center"><a href="{% url 'tysk:index' %}">На головну</a></p>
+      </div>
+</main>
+{% endblock content %}
+{% block script %}
+    {{ block.super }}
+{% endblock %}
+</body>

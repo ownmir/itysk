@@ -1,0 +1,34 @@
+{% extends 'tysk/index.html' %}
+{% load static %}
+{% block title %}Тиск - Пацієнт{% endblock %}
+{% block header %}
+    <!-- Site header -->
+    <header class="page-header bg-img size-lg" style="background-image: url({% static 'tysk/img/bg-banner2.jpg' %})">
+      <div class="container no-shadow">
+        <h1 class="text-center">Пацієнт</h1>
+        <p class="lead text-center">last_name - {{ patient }} ({{ patient.user.username }})</p>
+      </div>
+    </header>
+    <!-- END Site header -->
+{% endblock %}
+{% block content %}
+<main>
+    <div class="container login-block">
+        <img src="{% static 'tysk/img/logo.jpg' %}" id="click-me" alt="">
+
+        <h5></h5>
+        <p>
+            username - {{ patient.user.username }}
+            <span><a class="btn btn-success" href="{% url 'tysk:patient-update' object.id %}">Змінити</a> </span>
+        </p>
+    </div>
+
+      <div class="container login-links">
+        <p class="text-center"><a href="{% url 'tysk:index' %}">На початкову</a></p>
+      </div>
+</main>
+{% endblock content %}
+{% block script %}
+    {{ block.super }}
+{% endblock %}
+</body>

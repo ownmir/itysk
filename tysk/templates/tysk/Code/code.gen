@@ -1,0 +1,61 @@
+class {{model_class}}List(generic.ListView):
+    model = models.{{model_class}}
+    template_name = 'tysk/{{model_small}}/{{model_small}}-list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super({{model_class}}List, self).get_context_data(**kwargs)
+        context['active'] = '{{model_small}}-list'
+        return context
+
+
+class {{model_class}}Detail(generic.DetailView):
+    model = models.{{model_class}}
+    template_name = 'tysk/{{model_small}}/{{model_small}}-detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super({{model_class}}Detail, self).get_context_data(**kwargs)
+        context['active'] = '{{model_small}}-detail'
+        return context
+
+
+class {{model_class}}Create(generic.CreateView):
+    model = models.{{model_class}}
+    fields = {{fields_list}}
+    template_name = 'tysk/form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super({{model_class}}Create, self).get_context_data(**kwargs)
+        context['active'] = '{{model_small}}-add'
+        context['model_title'] = '{{model_title}}'
+        context['title'] = 'Додавання'
+        context['submit'] = 'Додати'
+        return context
+
+
+class {{model_class}}Update(generic.UpdateView):
+    model = models.{{model_class}}
+    fields = {{fields_list}}
+    template_name = 'tysk/form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super({{model_class}}Update, self).get_context_data(**kwargs)
+        context['active'] = '{{model_small}}-update'
+        context['model_title'] = '{{model_title}}'
+        context['title'] = 'Зміна'
+        context['submit'] = 'Змінити'
+        return context
+
+
+class {{model_class}}Delete(generic.DeleteView):
+    model = models.{{model_class}}
+    template_name = 'tysk/confirm-delete.html'
+    success_url = reverse_lazy('tysk:{{model_small}}-list')
+
+    def get_context_data(self, **kwargs):
+        context = super({{model_class}}Delete, self).get_context_data(**kwargs)
+        context['active'] = '{{model_small}}-confirm-delete'
+        context['model_title'] = '{{model_title}}'
+        context['title'] = 'Видалення'
+        context['submit'] = 'Видалити'
+        return context
+

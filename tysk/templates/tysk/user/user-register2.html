@@ -1,0 +1,66 @@
+{% extends 'tysk/user/user-login.html' %}
+{% load static%}
+{% block title %}Тиск - Реєстрація{% endblock %}
+{% block content %}
+<main>
+    <div class="login-block">
+        <!--img src="{% static 'tysk/img/logo.jpg' %}" id="click-me" alt=""-->
+        <h1>Заповніть свій профіль</h1>
+
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+        <form action="{% url 'tysk:register' %}" method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="error">
+                        {{ form.email.errors }}
+                    </div>
+                    <span class="input-group-addon"><i class="ti-email"></i></span>
+                    <input name="form.username" type="email" class="form-control" placeholder="Ваша електронна пошта" required>
+                </div>
+            </div>
+            <hr class="hr-xs">
+
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="ti-unlock"></i></span>
+                    <input name="password1" type="password" class="form-control" placeholder="Пароль">
+                </div>
+            </div>
+
+            <hr class="hr-xs">
+
+            <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="ti-unlock"></i></span>
+                  <input name="password2" type="password" class="form-control" placeholder="Підтверження пароля">
+                </div>
+            </div>
+
+            <hr class="hr-xs">
+
+            <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="ti-user"></i></span>
+                  <input name="first_name" type="text" class="form-control" placeholder="Ваше ім`я">
+                </div>
+            </div>
+
+            <hr class="hr-xs">
+
+            <button class="btn btn-primary btn-block" type="submit">Регістрація</button>
+
+        </form>
+      </div>
+
+      <div class="login-links">
+        <p class="text-center">Вже маєте профіль? <a class="txt-brand" href="{% url 'tysk:login' %}">Ввійти</a></p>
+      </div>
+</main>
+{% endblock content %}
+{% block script %}
+    {{ block.super }}
+{% endblock %}
+</body>

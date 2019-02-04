@@ -1,0 +1,80 @@
+{% extends 'tysk/static_add.html' %}
+{% load static%}
+{% load socialaccount %}
+{% providers_media_js %}
+{% block title %}Тиск - Ввійдіть{% endblock %}
+{% block css %}
+    {{ block.super }}
+
+{% endblock css %}
+{% block body1 %}
+<body class="login-page">
+{% endblock body1 %}
+{% block content %}
+    <main>
+
+      <div class="login-block">
+        <img src="{% static 'tysk/img/logo.jpg' %}" id="click-me" alt="" style="{opacity: 1;}">
+
+        <h1>Ввійдіть в свій кабінет</h1>
+
+          {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+        <form action="{% url 'tysk:login' %}?next={% url 'tysk:index' %}" method="post">
+        {% csrf_token %}
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="ti-email"></i></span>
+              <input name="username" type="text" class="form-control" placeholder="Електронна пошта">
+            </div>
+          </div>
+
+          <hr class="hr-xs">
+
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="ti-unlock"></i></span>
+              <input name="password" type="password" class="form-control" placeholder="Пароль">
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-block" type="submit">Вхід</button>
+
+          <div class="login-footer">
+            <h6>Чи ввійдіть через</h6>
+            <ul class="social-icons">
+              <li><a class="facebook" href="{% provider_login_url "facebook" method="oauth2" %}"><i class="fa fa-facebook"></i></a></li>
+              <li><a class="google-plus" href="{% provider_login_url "google" method="oauth2" %}"><i class="fa fa-google"></i></a></li>
+              <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+              <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+            </ul>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="login-links">
+          <a class="pull-left" href="{% url 'tysk:forget-password' %}">Забули пароль?</a>
+          <a class="pull-right" href="{% url 'tysk:register' %}">Регістрація</a>
+          <p class="text-center"><a class="txt-brand" href="{% url 'tysk:index' %}">На головну</a>
+          </p>
+      </div>
+
+
+    </main>
+{% endblock content %}
+{% block script %}
+    {{ block.super }}
+    <script>
+            <!--
+            $( "#click-me" ).click(function() {
+              $( "#click-me" ).animate({
+                opacity: 0,
+              }, 2000, function() {
+                // Animation complete. https://jquery-docs.ru/animate/
+              });
+            });
+            // -->
+    </script>
+{% endblock %}
+</body>

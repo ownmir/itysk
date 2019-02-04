@@ -1,0 +1,50 @@
+{% extends 'tysk/index.html' %}
+{% load static %}
+{% block title %}Тиск - {{ model_title }} - {{ title }}{% endblock %}
+{% block header %}
+    <!-- Site header -->
+    <header class="page-header bg-img size-lg" style="background-image: url({% static 'tysk/img/bg-banner2.jpg' %})">
+      <div class="container no-shadow">
+        <h1 class="text-center">{{ model_title }}, {{ title|lower }}</h1>
+        <p class="lead text-center">{{ object.name }}</p>
+      </div>
+    </header>
+    <!-- END Site header -->
+{% endblock %}
+{% block content %}
+<main>
+    <div class="container login-block">
+        {% if user.is_authenticated %}
+            <img src="{% static 'tysk/img/logo.jpg' %}" id="click-me" alt="">
+
+            <h5></h5>
+            <form action="" method="post">{% csrf_token %}
+                {{ form.as_p }}
+                <input class="btn btn-success" type="submit" value="{{ submit }}" />
+            </form>
+        {% else %}
+            <header class="section-header">
+                <span>Ви не ввійшли</span>
+            </header>
+        {% endif %} {# {% if user.is_authenticated %} #}
+    </div>
+
+      <div class="container login-links">
+        <p class="text-center"><a href="{% url 'tysk:index' %}">На початкову</a></p>
+      </div>
+</main>
+{% endblock content %}
+{% block script %}
+    {{ block.super }}
+    <script>
+        $(document).ready(function() {
+        var max = 0;
+        $("label").each(function(){
+            if ($(this).width() > max)
+                max = $(this).width();
+        });
+        $("label").width(max);
+        });
+    </script>
+{% endblock %}
+</body>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Скидання паролю</title>
+</head>
+<body>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    <form action="/tysk/user/" method="post">{% csrf_token %}
+        <p>
+            Скинути пароль користувачу {{ user.username }} на пошту {{ user.email }}?
+        </p>
+        <p>
+            <a href="mailto:noreply@tysk.net.ua?subject=Скинути {{ user.username }} на пошту {{ user.email }}">
+                Запрос з Вашої поштової програми за замовчуванням
+            </a>
+        </p>
+        <p>
+            <a href="{% url 'tysk:index' %}"> На головну</a>
+        </p>
+        <!--input type="submit" value="Підтвердити" /-->
+    </form>
+</body>
+</html>

@@ -1,0 +1,84 @@
+{% extends 'tysk/index.html' %}
+{% load static %}
+{% block title %}Тиск - Контакти{% endblock %}
+{% block header %}
+    <!-- Site header -->
+    <header class="page-header bg-img size-lg" style="background-image: url({% static 'tysk/img/bg-banner2.jpg' %})">
+      <div class="container no-shadow">
+        <h1 class="text-center">Зв`жіться з нами</h1>
+        <p class="lead text-center">Дзвоніть, пишіть та слідкуйте за нами в соціальних мережах.</p>
+      </div>
+    </header>
+    <!-- END Site header -->
+{% endblock %}
+{% block content %}
+    <!-- Main container -->
+    <main>
+      <section>
+        <div class="container">
+
+          <div id="contact-map" style="height: 500px"></div>
+
+          <br><br>
+
+          <div class="row">
+            <div class="col-sm-12 col-md-8">
+              <h4>Контактна форма</h4>
+              <form>
+                <div class="form-group">
+                  <input type="text" class="form-control input-lg" placeholder="Ім`я">
+                </div>
+
+                <div class="form-group">
+                  <input type="email" class="form-control input-lg" placeholder="Електронна пошта">
+                </div>
+
+                <div class="form-group">
+                  <textarea class="form-control" rows="5" placeholder="Повідомлення"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Відправити</button>
+              </form>
+            </div>
+
+            <div class="col-sm-12 col-md-4">
+              <h4>Інформація</h4>
+              <div class="highlighted-block">
+                <dl class="icon-holder">
+                  <dt><i class="fa fa-map-marker"></i></dt>
+                  <dd> майдан Незалежності, Київ, Україна</dd>
+
+                  <dt><i class="fa fa-phone"></i></dt>
+                  <dd>(+380 44) 987 654 3210</dd>
+
+                  <dt><i class="fa fa-fax"></i></dt>
+                  <dd>(+380 44) 123 456 7890</dd>
+
+                  <dt><i class="fa fa-envelope"></i></dt>
+                  <dd>ownmir@i.ua</dd>
+                </dl>
+              </div>
+
+              <br>
+
+              <ul class="social-icons size-sm text-center">
+                <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+                <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                <li><a class="instagram" href="#"><i class="fa fa-instagram"></i></a></li>
+              </ul>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+    <!-- END Main container -->
+{% endblock content %}
+{% block script %}
+    {{ block.super }}
+    <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+{% endblock script %}
+</body>

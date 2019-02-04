@@ -1,0 +1,24 @@
+{% extends 'tysk/user/user-login.html' %}
+{% load static%}
+{% block title %}Тиск - Підтвердження{% endblock %}
+{% block content %}
+<main>
+    <div class="login-block">
+        <img src="{% static 'tysk/img/logo.jpg' %}" id="click-me" alt="">
+        <h1>Підтвердження видалення</h1>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        <form action="" method="post">{% csrf_token %}
+            <p>видалити "{{ object }}"?</p>
+            <input type="submit" value="Згода" />
+        </form>
+    </div>
+
+      <div class="login-links">
+        <p class="text-center"><a href="{% url 'tysk:index' %}">На головну</a></p>
+      </div>
+</main>
+{% endblock content %}
+{% block script %}
+    {{ block.super }}
+{% endblock %}
+</body>

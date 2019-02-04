@@ -1,0 +1,34 @@
+{% extends 'tysk/static_add.html' %}
+{% load static%}
+{% block title %}Тиск - Створення користувача{% endblock %}
+{% block css %}
+    {{ block.super }}
+
+{% endblock css %}
+{% block body1 %}
+<body class="login-page">
+{% endblock body1 %}
+{% block content %}
+    <main>
+
+      <div class="login-block">
+        <img src="{% static 'tysk/img/logo.jpg' %}" id="click-me" alt="" style="{opacity: 1;}">
+
+        <h1>Створення користувача</h1>
+
+          {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        <form action="" method="post">{% csrf_token %}
+            {{ form_user.as_p }}
+            <input type="submit" value="Створити" />
+        </form>
+        </div>
+
+          <div class="login-links">
+            <p class="text-center"><a href="{% url 'tysk:index' %}">На головну</a></p>
+          </div>
+    </main>
+{% endblock content %}
+{% block script %}
+    {{ block.super }}
+{% endblock %}
+</body>

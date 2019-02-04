@@ -1,0 +1,40 @@
+{% extends 'tysk/index.html' %}
+{% load static %}
+{% block title %}Тиск - Головна - Деталі{% endblock %}
+{% block header %}
+    <!-- Site header -->
+    <header class="page-header bg-img size-lg" style="background-image: url({% static 'tysk/img/bg-banner2.jpg' %})">
+      <div class="container no-shadow">
+        <h1 class="text-center">Головна</h1>
+        <p class="lead text-center">{{ main.patient }}</p>
+      </div>
+    </header>
+    <!-- END Site header -->
+{% endblock %}
+{% block content %}
+<main>
+    <div class="container login-block">
+        <img src="{% static 'tysk/img/logo.jpg' %}" id="click-me" alt="">
+
+        <h5></h5>
+        <p>            Пацієнт - {{ main.patient }}        </p>
+        <p>Доктор - {{ main.doctor}}</p>
+        <p>Дата - {{ main.date}}</p>
+        <p>Час - {{ main.time}}</p>
+        <p>Верхній тиск - {{ main.upper}}</p>
+        <p>Нижній - {{ main.lower}}</p>
+        <p>Пульс - {{ main.pulse}}</p>
+        <p>Ліки - {{ main.medicament}}</p>
+        <p>Власник - {{ main.owner }}</p>
+        <div><a class="btn btn-success" href="{% url 'tysk:main-update' object.id %}">Змінити</a> </div>
+    </div>
+
+      <div class="container login-links">
+        <p class="text-center"><a href="{% url 'tysk:index' %}">На початкову</a></p>
+      </div>
+</main>
+{% endblock content %}
+{% block script %}
+    {{ block.super }}
+{% endblock %}
+</body>

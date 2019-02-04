@@ -1,0 +1,154 @@
+{% extends 'tysk/user/user-login.html' %}
+{% load static%}
+{% block title %}Тиск - Реєстрація{% endblock %}
+{% block content %}
+<main>
+    <div class="login-block">
+        <!--img src="{% static 'tysk/img/logo.jpg' %}" id="click-me" alt=""-->
+        <h1>Заповніть свій профіль</h1>
+
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+        <form action="{% url 'tysk:register' %}" method="post">
+            {% csrf_token %}
+            <div class="error">
+                {{ form.non_field_errors }}
+            </div>
+            <div class="form-group">
+                {% if form.username.errors %}
+                    <div class="error">
+                        {{ form.username.errors }}
+                    </div>
+                {% endif %}
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="ti-email"></i></span>
+                    {% if form.username.value == None %}
+                        <input name="username" type="text" class="form-control" placeholder="Ваша електронна пошта">
+                    {% else %}
+                        <input name="username" type="text" class="form-control" value="{{ form.username.value }}" placeholder="Ваша електронна пошта">
+                    {% endif %}
+                </div>
+            </div>
+
+            <hr class="hr-xs">
+
+            <div class="form-group">
+                <div class="error">
+                    {{ form.password1.errors }}
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="ti-unlock"></i></span>
+                  <input name="password1" type="password" class="form-control" placeholder="Пароль">
+                </div>
+            </div>
+
+            <hr class="hr-xs">
+
+            <div class="form-group">
+                <div class="error">
+                    {{ form.password2.errors }}
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="ti-check"></i></span>
+                  <input name="password2" type="password" class="form-control" placeholder="Підтверження пароля">
+                </div>
+            </div>
+
+            <hr class="hr-xs">
+
+            <div class="form-group">
+                <div class="error">
+                    {{ form.first_name.errors }}
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="ti-user"></i></span>
+                    {% if form.first_name.value == None %}
+                        <input name="first_name" type="text" class="form-control" placeholder="Ваше ім`я">
+                    {% else %}
+                        <input name="first_name" type="text" class="form-control" value="{{ form.first_name.value }}" placeholder="Ваше ім`я">
+                    {% endif %}
+                </div>
+            </div>
+
+            <hr class="hr-xs">
+            <br>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+
+                    <h6><b>Стать</b></h6>
+                    <div class="radio">
+                        {% if form.gender.value == 'male' %}
+                            <input type="radio" name="gender" id="male" value="male" checked>
+                            <label for="male">Чоловіча</label>
+                        {% elif form.gender.value == None %}
+                            <input type="radio" name="gender" id="male" value="male" checked>
+                            <label for="male">Чоловіча</label>
+                        {% else %}
+                            <input type="radio" name="gender" id="male" value="male">
+                            <label for="male">Чоловіча</label>
+                        {% endif %}
+                    </div>
+
+                    <div class="radio">
+                        {% if form.gender.value == 'female' %}
+                            <input type="radio" name="gender" id="female" value="female" checked>
+                        {% elif form.gender.value == None %}
+                            <input type="radio" name="gender" id="female" value="female">
+                        {% else %}
+                            <input type="radio" name="gender" id="female" value="female">
+                        {% endif %}
+                        <label for="female">Жіноча</label>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+
+                    <h6><b>Хто?</b></h6>
+                    <div class="radio">
+                        {% if form.type_user.value == 'patient' %}
+                            <input type="radio" name="type_user" id="patient" value="patient" checked>
+                        {% elif form.type_user.value == None %}
+                            <input type="radio" name="type_user" id="patient" value="patient" checked>
+                        {% else %}
+                            <input type="radio" name="type_user" id="patient" value="patient">
+                        {% endif %}
+
+                        <label for="patient">Пацієнт</label>
+                    </div>
+
+                    <div class="radio">
+                        {% if form.type_user.value == 'doctor' %}
+                            <input type="radio" name="type_user" id="doctor" value="doctor" checked>
+                        {% elif form.type_user.value == None %}
+                            <input type="radio" name="type_user" id="doctor" value="doctor">
+                        {% else %}
+                            <input type="radio" name="type_user" id="doctor" value="doctor">
+                        {% endif %}
+                        <label for="doctor">Лікар</label>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary btn-block" type="submit">Регістрація</button>
+
+              <!--div class="login-footer">
+                <h6>Або зайдіть через</h6>
+                <ul class="social-icons">
+                  <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                  <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                  <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                </ul>
+              </div-->
+
+        </form>
+      </div>
+
+      <div class="login-links">
+        <p class="text-center">Вже маєте профіль? <a class="txt-brand" href="{% url 'tysk:login' %}">Ввійти</a></p>
+      </div>
+</main>
+{% endblock content %}
+{% block script %}
+    {{ block.super }}
+{% endblock %}
+</body>
+

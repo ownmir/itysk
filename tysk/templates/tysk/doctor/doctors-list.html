@@ -1,0 +1,54 @@
+{% extends 'tysk/index.html' %}
+{% load static %}
+{% block title %}Тиск - Лікарі{% endblock %}
+{% block header %}
+    <!-- Site header -->
+    <header class="page-header bg-img size-lg" style="background-image: url({% static 'tysk/img/bg-banner2.jpg' %})">
+      <div class="container no-shadow">
+        <h1 class="text-center">Список лікарів</h1>
+        <p class="lead text-center">Бажаємо Вам успіхів в роботі!</p>
+      </div>
+    </header>
+    <!-- END Site header -->
+{% endblock %}
+{% block content %}
+    <!-- Main container -->
+    <main>
+      <!--  -->
+      <section>
+          <div class="container login-block">
+              {% if user.is_authenticated %}
+                {% if doctor_list %}
+                    <img src="{% static 'tysk/img/logo.jpg' %}" id="click-me" alt="">
+                    <h5></h5>
+                    <p>                {% for doctor_item in doctor_list %}
+                        <p>
+                            <a class="col-sm-12 col-sm-8" href="{% url 'tysk:doctor-detail' doctor_item.id %}">
+                                {{ doctor_item.user.last_name }}</a>
+                            <span class="col-xs-12 col-sm-2">
+                                <a class="btn btn-success btn-outline btn-xs" href="{% url 'tysk:doctor-update' doctor_item.id %}">
+                                    Змінити
+                                </a>
+                            </span>
+                            <span class="col-xs-12 col-sm-2">
+                                <a class="btn btn-danger btn-outline btn-xs" href="{% url 'tysk:doctor-delete' doctor_item.id %}">
+                                    Видалити
+                                </a>
+                            </span>
+                        </p>
+                                       {% endfor %}                </p>
+                {% else %}
+                    <img src="{% static 'tysk/img/sad.jpg' %}" id="click-me" alt="">
+                    <p>Немає доступних лікарів.</p>
+                {% endif %}
+              {% else %}
+                <header class="section-header">
+                    <span>Ви не ввійшли</span>
+                </header>
+              {% endif %} {# {% if user.is_authenticated %} #}
+          </div>
+      </section>
+    </main>
+    <!-- END Main container -->
+{% endblock content %}
+</body>

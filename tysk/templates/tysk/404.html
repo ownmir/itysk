@@ -1,0 +1,7 @@
+{% include 'diary/minhead.html' %}
+{% load i18n static admin_static%}
+{% block content %}
+    <h2><a href="/diary/admin/diary/calendar/">{% trans 'The current date is not in the calendar. Enter day of diary' %}
+        </a></h2>
+    {% block table %} {% endblock table %}
+{% endblock content %}

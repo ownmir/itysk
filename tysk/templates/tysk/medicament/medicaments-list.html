@@ -1,0 +1,58 @@
+{% extends 'tysk/index.html' %}
+{% load static %}
+{% block title %}Тиск - Ліки - Список{% endblock %}
+{% block header %}
+    <!-- Site header -->
+    <header class="page-header bg-img size-lg" style="background-image: url({% static 'tysk/img/bg-banner2.jpg' %})">
+      <div class="container no-shadow">
+        <h1 class="text-center">Список ліків</h1>
+        <p class="lead text-center">Бажаємо, щоб Вам вони допомогли!</p>
+      </div>
+    </header>
+    <!-- END Site header -->
+{% endblock %}
+{% block content %}
+    <!-- Main container -->
+    <main>
+      <!--  -->
+      <section>
+          <div class="container login-block">
+          {% if user.is_authenticated %}
+              {% if medicament_list %}
+                <img src="{% static 'tysk/img/logo.jpg' %}" id="click-me" alt="">
+                <h5></h5>
+                <p>                {% for medicament_item in medicament_list %}
+                    <p>
+                        <a class="col-sm-12 col-sm-8" href="{% url 'tysk:medicament-detail' medicament_item.id %}" title="">
+                            {{ medicament_item.name }}
+                        </a>
+                        {% if medicament_item.name != 'Не приймали' or user.is_superuser %}
+                            <span class="col-xs-12 col-sm-2">
+                                <a class="btn btn-success btn-outline btn-xs" href="{% url 'tysk:medicament-update' medicament_item.id %}">
+                                    Змінити
+                                </a>
+                            </span>
+                            <span class="col-xs-12 col-sm-2">
+                                <a class="btn btn-danger btn-outline btn-xs" href="{% url 'tysk:medicament-delete' medicament_item.id %}">
+                                    Видалити
+                                </a>
+                            </span>
+                        {% endif %}
+                    </p>
+
+                                   {% endfor %}                </p>
+              {% else %}
+                    <img src="{% static 'tysk/img/sad.jpg' %}" id="click-me" alt="">
+                    <p>Немає даних.</p>
+              {% endif %}
+          {% else %}
+            <header class="section-header">
+                <span>Ви не ввійшли</span>
+            </header>
+          {% endif %} {# {% if user.is_authenticated %} #}
+          </div>
+      </section>
+    </main>
+    <!-- END Main container -->
+{% endblock content %}
+</body>

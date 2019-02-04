@@ -1,0 +1,17 @@
+.idea/
+__pycache__/
+*.py[cod]
+.env
+.coverage
+cov.cmd
+cov_all.cmd
+htmlcov/
+annotatecov/
+venv/
+tysk.json
+user.json
+db.con
+
+# SQLite database files
+
+*.sqlite3

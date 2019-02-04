@@ -1,0 +1,32 @@
+{% load static %}
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="Зберігайте історію тиска, пульса та прийому лікарских засобів Вами, Вашими батьками для лікаря">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    {% block css %}
+        <!-- Styles -->
+        <link href="{% static 'tysk/css/app.min.css'%}" rel="stylesheet">
+    {% endblock css %}
+    <!-- Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Oswald:100,300,400,500,600,800%7COpen+Sans:300,400,500,600,700,800%7CMontserrat:400,700' rel='stylesheet' type='text/css'>
+    {% block style %}{% endblock style %}
+</head>
+{% block body1 %}
+<body>
+{% endblock body1 %}
+    {% block nav_bar %}{% endblock %}
+    {% block header %}{% endblock header %}
+    {% block content %}{% endblock %}
+    {% block footer %}{% endblock %}
+    {% block script %}
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script>window.jQuery || document.write('<script src="https://code.jquery.com/jquery-1.10.2.min.js"><\/script>')</script>
+        <script src="{% static 'tysk/js/app.min.js' %}"></script>
+    {% endblock script %}
+</body>
+</html>

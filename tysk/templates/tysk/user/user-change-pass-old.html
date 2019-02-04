@@ -1,0 +1,21 @@
+{% extends 'tysk/user/user-login.html' %}
+{% load static%}
+{% block title %}Тиск - Зміна пароля{% endblock %}
+{% block content %}
+<main>
+    <div class="login-block">
+        <img src="{% static 'tysk/img/logo.jpg' %}" id="click-me" alt="">
+        <h1>Зміна пароля</h1>
+        {% if error_message %}<strong>{{ error_message }}</strong>{% endif %}
+        <form action="" method="post">{% csrf_token %}
+            <p>Змінити пароль користувачу <strong>{{ user.username }}</strong>?</p>
+            {{ form_user.as_p }}
+            <input type="submit" value="Зберегти" />
+        </form>
+    </div>
+</main>
+{% endblock content %}
+{% block script %}
+    {{ block.super }}
+{% endblock %}
+</body>

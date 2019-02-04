@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>radio</title>
+    <link href="app.min.css" rel="stylesheet">
+</head>
+<body class="login-page">
+<div>
+<div class="row">
+    <div class="col-sm-12 col-md-6">
+        <br>
+        <h6><b>Стать</b></h6>
+        <span class="radio">
+            <input type="radio" name="gender" id="male" value="male" checked>
+            <label for="male">Чоловіча</label>
+        </span>
+
+        <span class="radio">
+            <input type="radio" name="gender" id="female" value="female">
+            <label for="female">Жіноча</label>
+        </span>
+    </div>
+    <div class="col-sm-12 col-md-6">
+                    <br>
+                    <h6><b>Хто?</b></h6>
+                    <div class="radio">
+                        <input type="radio" name="type-user" id="patient" value="patient" checked>
+                        <label for="patient">Пацієнт</label>
+                    </div>
+
+                    <div class="radio">
+                        <input type="radio" name="type-user" id="doctor" value="doctor">
+                        <label for="doctor">Лікар</label>
+                    </div>
+
+                </div>
+</div>
+    </div>
+<div>
+	<form action="/tysk/user/reg/" method="post">
+            <tr><th><label for="id_email">Електронна пошта:</label></th><td>
+                <input id="id_email" name="email" type="email" required /></td></tr>
+<tr><th><label for="id_password1">Пароль:</label></th><td><input id="id_password1" name="password1" type="password" required /><br /><span class="helptext">звертайте увагу на мову і регістр</span></td></tr>
+<tr><th><label for="id_password2">Підтверження паролю:</label></th><td><input id="id_password2" name="password2" type="password" required /></td></tr>
+<tr><th><label for="id_first_name">Ім`я:</label></th><td><input id="id_first_name" name="first_name" type="text" required /><br /><span class="helptext">ім`я (наприклад - Тарас, Олена)</span></td></tr>
+<tr><th><label for="id_gender_0">Стать:</label></th><td><ul id="id_gender"><li><label for="id_gender_0"><input id="id_gender_0" name="gender" type="radio" value="male" required /> Чоловіча</label></li>
+<li><label for="id_gender_1"><input id="id_gender_1" name="gender" type="radio" value="female" required /> Жіноча</label></li></ul></td></tr>
+<tr><th><label for="id_type_user_0">Хто?</label></th><td><ul id="id_type_user"><li><label for="id_type_user_0"><input id="id_type_user_0" name="type_user" type="radio" value="patient" required /> Пацієнт</label></li>
+<li><label for="id_type_user_1"><input id="id_type_user_1" name="type_user" type="radio" value="doctor" required /> Лікар</label></li></ul></td></tr>
+            <button class="btn btn-primary btn-block" type="submit">Регістрація</button>
+</div>
+</body>
+</html>
