@@ -112,6 +112,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "tysk/static"),
 )
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 EMAIL_PORT = 1025
 SITE_ID = 1
 AUTHENTICATION_BACKENDS = (
