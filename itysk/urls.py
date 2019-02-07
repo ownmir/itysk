@@ -14,10 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-from django.contrib import admin
+from django.contrib import admin as tysk_admin
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^tysk/admin/', tysk_admin.site.urls),
     # https://stackoverflow.com/questions/48608894/specifying-a-namespace-in-include-without-providing-an-app-name
     # url(r'^tysk/', include('tysk.urls', namespace="tysk")),
     url(r'^tysk/', include(('tysk.urls', 'tysk'), namespace="tysk")),
