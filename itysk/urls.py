@@ -21,5 +21,5 @@ urlpatterns = [
     # https://stackoverflow.com/questions/48608894/specifying-a-namespace-in-include-without-providing-an-app-name
     # url(r'^tysk/', include('tysk.urls', namespace="tysk")),
     url(r'^tysk/', include(('tysk.urls', 'tysk'), namespace="tysk")),
-    url(r'^accounts/', include('allauth.urls')),
+    url(r'^tysk/accounts/', include('allauth.urls')),
 ]
