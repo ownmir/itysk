@@ -8,6 +8,7 @@ cov_all.cmd
 htmlcov/
 annotatecov/
 venv/
+Vue/
 tysk.json
 user.json
 db.con

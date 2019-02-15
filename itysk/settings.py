@@ -113,7 +113,11 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "tysk/static"),
 )
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-EMAIL_PORT = 1025
+EMAIL_HOST = 'smtp.ukr.net'
+EMAIL_PORT = 2525
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = 'ownsvit@ukr.net'
+EMAIL_USE_TLS = True
 SITE_ID = 1
 AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',

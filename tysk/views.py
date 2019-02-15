@@ -14,6 +14,7 @@ from decouple import config
 
 from . import forms
 from . import models
+from django.contrib.auth.views import PasswordResetConfirmView
 
 
 def auth_or_create(request):
@@ -499,20 +500,32 @@ class UserResetPass(generic.UpdateView):
     model = User
 
     def get(self, request, *args, **kwargs):
-        user_object = User.objects.get(id=kwargs['pk'])
-        form_user = forms.UserPasswordResetForm(initial={'email': user_object.email})
+        user_object = get_object_or_404(User, username=kwargs['username'])
+        form_user = forms.UserPasswordResetForm(initial={'username': user_object.username, 'email': user_object.email})
 
-        return render(self.request, form_user.template_name, {'form_user': form_user})
+        return render(self.request, form_user.template_name, {'form_user': form_user}, )
 
     def post(self, request, *args, **kwargs):
-        user_object = User.objects.get(id=kwargs['pk'])
+        # print('request.POST.username', request.POST.username)
+        user_object = get_object_or_404(User, username=kwargs['username'])
         form_user = forms.UserPasswordResetForm(request.POST)
         if form_user.is_valid():
             form_user.save()
-            form_user.send_email(to_email=user_object.email)
-            return render(request, 'tysk/user/user-login.html')
+            # form_user.send_email(from_email='admin@localhost', to_email=user_object.email,
+            #                      subject_template_name='tysk/user/reset_subject.txt',
+            #                      email_template_name='tysk/user/user-reset-pass-email.html',
+            #                      context={'username': user_object.username})
+            form_user.send_email(from_email=form_user.from_email, to_email=[user_object.email],
+                                 subject_template_name=form_user.subject_template_name,
+                                 email_template_name=form_user.email_template_name,
+                                 context={'username': user_object.username})
+            return redirect('/tysk/users/login/')
         else:
             return render(request, self.template_name, {'form_user': form_user})
+
+
+class UserPasswordResetConfirmView(PasswordResetConfirmView):
+    model = User
 
 
 class PatientsList(generic.ListView):
