@@ -8,6 +8,7 @@ cov_all.cmd
 htmlcov/
 annotatecov/
 venv/
+tysk/*.PNG
 Vue/
 tysk.json
 user.json
