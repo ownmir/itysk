@@ -8,6 +8,8 @@ cov_all.cmd
 htmlcov/
 annotatecov/
 venv/
+Vue/
+tysk/*.PNG
 tysk.json
 user.json
 db.con
