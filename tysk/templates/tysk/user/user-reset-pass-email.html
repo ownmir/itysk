@@ -6,7 +6,7 @@
 </head>
 <body>
     {% autoescape off %}
-    Для того, щоб ініціювати процес скидання пароля для ваc {{ user.get_username }},
+    Для того, щоб ініціювати процес скидання пароля для ваc {{ username }},
     перейдіть:
 
     {{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}

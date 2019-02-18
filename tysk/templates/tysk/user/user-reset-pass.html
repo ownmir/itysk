@@ -1,24 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Скидання паролю</title>
-</head>
-<body>
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-    <form action="/tysk/user/" method="post">{% csrf_token %}
+{% extends 'tysk/user/user-login.html' %}
+{% load static%}
+{% block title %}Тиск - Запит{% endblock %}
+{% block content %}
+<main>
+    <div class="login-block">
+        <img src="{% static 'tysk/img/logo.jpg' %}" id="click-me" alt="">
+        <h1>Запит на скидання пароля</h1>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        <form action="#" method="post">{% csrf_token %}
+            {% if form_user.email.errors %}
+                {{ form_user.email.errors }}
+            {% endif %}
+            <div>
+                Скинути пароль користувачу
+                <input type="text" readonly class="form-control" placeholder="Користувач" name="username" value="{{ user.username }}">
+                на пошту
+                <input type="email" readonly class="form-control" placeholder="email" name="email" value="{{ user.email }}">?
+            </div>
+            <br>
+            <input type="submit" value="Підтвердити" />
+        </form>
+    </div>
+    <div class="login-links">
+{#        <a href="mailto:noreply@ownsvit.top?subject=Скинути {{ form_user.username }} на пошту {{ form_user.email }}">#}
         <p>
-            Скинути пароль користувачу {{ user.username }} на пошту {{ user.email }}?
-        </p>
-        <p>
-            <a href="mailto:noreply@tysk.net.ua?subject=Скинути {{ user.username }} на пошту {{ user.email }}">
+            <a href="mailto:ownsvit@ukr.net?subject=Скинути {{ user.username }} на пошту {{ user.email }}">
                 Запрос з Вашої поштової програми за замовчуванням
             </a>
         </p>
-        <p>
-            <a href="{% url 'tysk:index' %}"> На головну</a>
-        </p>
-        <!--input type="submit" value="Підтвердити" /-->
-    </form>
+        <a href="{% url 'tysk:index' %}"> На початкову</a>
+    </div>
+</main>
+{% endblock content %}
+{% block script %}
+    {{ block.super }}
+{% endblock %}
 </body>
-</html>

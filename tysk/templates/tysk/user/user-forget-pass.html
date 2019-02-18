@@ -1,6 +1,6 @@
 {% extends 'tysk/user/user-login.html' %}
 {% load static%}
-{% block title %}Запит{% endblock %}
+{% block title %}Тиск - Запит{% endblock %}
 {% block content %}
 <main>
     <div class="login-block">
@@ -20,12 +20,13 @@
             <a href="mailto:ownsvit@ukr.net?subject=Скинути {{ user.username }} на пошту {{ user.email }}">
                 Запрос з Вашої поштової програми за замовчуванням
             </a>
-        </p>
+          </p>
         </form>
       </div>
 
       <div class="login-links">
         <p class="text-center"><a href="{% url 'tysk:login' %}">Назад до входу</a></p>
+        <a href="{% url 'tysk:index' %}"> На початкову</a>
       </div>
 </main>
 {% endblock content %}

@@ -35,17 +35,17 @@ class UserPasswordResetForm(PasswordResetForm):
     template_name = 'tysk/user/user-reset-pass.html'
     email_template_name = 'tysk/user/user-reset-pass-email.html'
     subject_template_name = 'tysk/reset_subject.txt'
-    from_email = 'noreply@tysk.net.ua'
+    from_email = ''
     to_email = ''
 
     class Meta:
         model = models.User
-        # fields = ['email']
+        fields = ['username', 'email']
 
     def send_email(self, subject_template_name, email_template_name, context, from_email, to_email,
                    html_email_template_name=None):
         super(UserPasswordResetForm, self).send_email(self.subject_template_name, self.email_template_name,
-                                                      context, self.from_email, to_email)
+                                                      context, from_email, to_email)
 
 
 class TyskUserCreationForm(UserCreationForm):
