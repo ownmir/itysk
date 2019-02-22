@@ -8,13 +8,23 @@ from django.shortcuts import render, redirect, get_object_or_404
 # typeerror-login-takes-1-positional-argument-but-2-were-given
 from django.utils.timezone import now, localtime
 from django.views import generic
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from itysk import settings
 from decouple import config
 
 from . import forms
 from . import models
-from django.contrib.auth.views import PasswordResetConfirmView
+from django.contrib.auth.views import PasswordResetConfirmView, PasswordResetCompleteView
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.utils.http import is_safe_url, urlsafe_base64_decode
+from django.core.exceptions import ValidationError
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
+from django.views.decorators.debug import sensitive_post_parameters
+from django.views.generic.base import TemplateView
+from django.views.generic.edit import FormView
 
 
 def auth_or_create(request):
@@ -498,6 +508,7 @@ def faq(request):
 
 class UserResetPass(generic.UpdateView):
     model = User
+    token_generator = default_token_generator
 
     def get(self, request, *args, **kwargs):
         user_object = get_object_or_404(User, username=kwargs['username'])
@@ -510,23 +521,120 @@ class UserResetPass(generic.UpdateView):
         user_object = get_object_or_404(User, username=kwargs['username'])
         form_user = forms.UserPasswordResetForm(request.POST)
         if form_user.is_valid():
-            form_user.save()
+            print('self.cleaned_data', form_user.cleaned_data)
+            form_user.save(user_object, request)
             # form_user.send_email(from_email='admin@localhost', to_email=user_object.email,
             #                      subject_template_name='tysk/user/reset_subject.txt',
             #                      email_template_name='tysk/user/user-reset-pass-email.html',
             #                      context={'username': user_object.username})
-            form_user.send_email(from_email=form_user.from_email, to_email=[user_object.email],
-                                 subject_template_name=form_user.subject_template_name,
-                                 email_template_name=form_user.email_template_name,
-                                 context={'username': user_object.username})
-            return redirect('/tysk/users/login/')
+            # form_user.send_email(from_email=form_user.from_email, to_email=[user_object.email],
+            #                      subject_template_name=form_user.subject_template_name,
+            #                      email_template_name=form_user.email_template_name,
+            #                      context={'username': user_object.username})
+            return redirect('/tysk/users/reset/done/')
         else:
             return render(request, self.template_name, {'form_user': form_user})
 
 
-class UserPasswordResetConfirmView(PasswordResetConfirmView):
-    model = User
+class PasswordContextMixin:
+    extra_context = None
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'title': self.title,
+            **(self.extra_context or {})
+        })
+        return context
+
+
+class UserPassResetDoneView(PasswordContextMixin, TemplateView):
+    template_name = 'tysk/user/user-reset-pass-done.html'
+    title = 'Тиск - Email відправлено'
+
+
+INTERNAL_RESET_URL_TOKEN = 'set-password'
+INTERNAL_RESET_SESSION_TOKEN = '_password_reset_token'
+
+
+class UserPasswordResetConfirmView(PasswordContextMixin, TemplateView):
+    model = User
+    form_class = forms.UserSetPasswordForm
+    post_reset_login = False
+    post_reset_login_backend = None
+    success_url = reverse_lazy('tysk/user/user-reset-password-complete')
+    template_name = 'tysk/user/user-reset-pass-confirm.html'
+    title = 'Введіть новий пароль'
+    token_generator = default_token_generator
+
+    @method_decorator(sensitive_post_parameters())
+    @method_decorator(never_cache)
+    def dispatch(self, *args, **kwargs):
+        assert 'unameb64' in kwargs and 'token' in kwargs
+        print('kwargs dispatch', kwargs)
+        self.validlink = False
+        self.user = self.get_user(kwargs['unameb64'])
+        if self.user is not None:
+            token = kwargs['token']
+            if token == INTERNAL_RESET_URL_TOKEN:
+                session_token = self.request.session.get(INTERNAL_RESET_SESSION_TOKEN)
+                if self.token_generator.check_token(self.user, session_token):
+                    # If the token is valid, display the password reset form.
+                    self.validlink = True
+                    return super().dispatch(*args, **kwargs)
+            else:
+                if self.token_generator.check_token(self.user, token):
+                    # Store the token in the session and redirect to the
+                    # password reset form at a URL without the token. That
+                    # avoids the possibility of leaking the token in the
+                    # HTTP Referer header.
+                    self.request.session[INTERNAL_RESET_SESSION_TOKEN] = token
+                    redirect_url = self.request.path.replace(token, INTERNAL_RESET_URL_TOKEN)
+                    return HttpResponseRedirect(redirect_url)
+        return self.render_to_response(self.get_context_data())
+
+    def get_user(self, unameb64):
+        print('get_user')
+        print('unameb64', unameb64)
+        try:
+            # urlsafe_base64_decode() decodes to bytestring
+            usernamed = urlsafe_base64_decode(unameb64).decode()
+            user = self.model._default_manager.get(username=usernamed)
+        except (TypeError, ValueError, OverflowError, self.model.DoesNotExist, ValidationError):
+            user = None
+        return user
+
+    def get_form_kwargs(self):
+        print('get_form_kwargs')
+        kwargs = super().get_form_kwargs()
+        print('kwargs get_form_kwargs', kwargs)
+
+    def form_valid(self, form):
+        print('form_valid')
+        user = form.save()
+        print('user', user)
+        del self.request.session[INTERNAL_RESET_SESSION_TOKEN]
+        if self.post_reset_login:
+            auth_login(self.request, user, self.post_reset_login_backend)
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        print('kwargs get_context_data', kwargs)
+        context = super().get_context_data(**kwargs)
+        if self.validlink:
+            context['validlink'] = True
+        else:
+            context.update({
+                'form': None,
+                'title': 'Пароль не скинуто',
+                'validlink': False,
+            })
+        return context
+
+
+class UserPasswordResetCompleteView(PasswordResetCompleteView):
+    model = User
+    template_name = 'tysk/user/user-reset-pass-complete.html'
 
 class PatientsList(generic.ListView):
     model = models.Patient

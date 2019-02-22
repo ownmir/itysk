@@ -1,0 +1,21 @@
+{% extends 'tysk/user/user-login.html' %}
+{% load i18n static%}
+{% block title %}Тиск - Email відправлено {{ title }}{% endblock %}
+{% block content %}
+<main>
+    <div class="login-block">
+        <img src="{% static 'tysk/img/logo.jpg' %}" id="click-me" alt="">
+        <h1>Email відправлено</h1>
+        <p>{% trans "We've emailed you instructions for setting your password, if an account exists with the email you entered. You should receive them shortly." %}</p>
+
+        <p>{% trans "If you don't receive an email, please make sure you've entered the address you registered with, and check your spam folder." %}</p>
+    </div>
+    <div class="login-links">
+        <a href="{% url 'tysk:index' %}"> На початкову</a>
+    </div>
+</main>
+{% endblock content %}
+{% block script %}
+    {{ block.super }}
+{% endblock %}
+</body>

@@ -1,6 +1,6 @@
 {% extends 'tysk/user/user-login.html' %}
 {% load static%}
-{% block title %}Тиск - Запит{% endblock %}
+{% block title %}Тиск - Запит {{ title }}{% endblock %}
 {% block content %}
 <main>
     <div class="login-block">
@@ -13,9 +13,9 @@
             {% endif %}
             <div>
                 Скинути пароль користувачу
-                <input type="text" readonly class="form-control" placeholder="Користувач" name="username" value="{{ user.username }}">
+                <input type="text" class="form-control" placeholder="Користувач" name="username" value="{{ user.username }}">
                 на пошту
-                <input type="email" readonly class="form-control" placeholder="email" name="email" value="{{ user.email }}">?
+                <input type="email" class="form-control" placeholder="email" name="email" value="{{ user.email }}">?
             </div>
             <br>
             <input type="submit" value="Підтвердити" />

@@ -1,0 +1,48 @@
+{% extends 'tysk/user/user-login.html' %}
+{% load i18n static%}
+{% block title %}Тиск - Підтвердження{% endblock %}
+{% block content %}
+<main>
+    <div class="login-block">
+        <img src="{% static 'tysk/img/logo.jpg' %}" id="click-me" alt="">
+        <h1>Підтвердження відправлення</h1>
+        {% if validlink %}
+
+            <p>{% trans "Please enter your new password twice so we can verify you typed it in correctly." %}</p>
+
+            <form method="post">{% csrf_token %}
+            <fieldset class="module aligned">
+                <div class="form-row field-password1">
+                    {{ form.new_password1.errors }}
+                    <label for="id_new_password1">{% trans 'New password:' %}</label>
+                    {{ form.new_password1 }}
+                </div>
+                <div class="form-row field-password2">
+                    {{ form.new_password2.errors }}
+                    <label for="id_new_password2">{% trans 'Confirm password:' %}</label>
+                    {{ form.new_password2 }}
+                </div>
+                <input type="submit" value="{% trans 'Change my password' %}">
+            </fieldset>
+            </form>
+
+        {% else %}
+
+            <p>{% trans "The password reset link was invalid, possibly because it has already been used.  Please request a new password reset." %}</p>
+        {% endif %}
+{#        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}#}
+{#        <form action="" method="post">{% csrf_token %}#}
+{#            <p>відправити "{{ object }}"?</p>#}
+{#            <input type="submit" value="Згода" />#}
+{#        </form>#}
+    </div>
+
+      <div class="login-links">
+        <p class="text-center"><a href="{% url 'tysk:index' %}">На головну</a></p>
+      </div>
+</main>
+{% endblock content %}
+{% block script %}
+    {{ block.super }}
+{% endblock %}
+</body>

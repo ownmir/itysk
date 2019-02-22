@@ -3,6 +3,12 @@ from django.contrib.auth.forms import UserChangeForm, UserCreationForm, SetPassw
 
 from . import models
 from django import forms
+from django.core import mail
+from django.contrib.auth.tokens import default_token_generator
+from django.template import loader
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.contrib.sites.shortcuts import get_current_site
 
 
 def make_error_not_auth():
@@ -31,11 +37,11 @@ class UserChangePasswordForm(PasswordChangeForm):
         fields = ['password']
 
 
-class UserPasswordResetForm(PasswordResetForm):
+class UserPasswordResetForm(forms.Form):
     template_name = 'tysk/user/user-reset-pass.html'
     email_template_name = 'tysk/user/user-reset-pass-email.html'
-    subject_template_name = 'tysk/reset_subject.txt'
-    from_email = ''
+    subject_template_name = 'tysk/user/reset_subject.txt'
+    from_email = 'noreply@ownsvit.top'
     to_email = ''
 
     class Meta:
@@ -44,8 +50,46 @@ class UserPasswordResetForm(PasswordResetForm):
 
     def send_email(self, subject_template_name, email_template_name, context, from_email, to_email,
                    html_email_template_name=None):
-        super(UserPasswordResetForm, self).send_email(self.subject_template_name, self.email_template_name,
-                                                      context, from_email, to_email)
+        connection = mail.get_connection()
+        print('connection', connection)
+        if connection.open():
+            subject = loader.render_to_string(subject_template_name, context)
+            # Email subject *must not* contain newlines
+            subject = ''.join(subject.splitlines())
+            print('context', context)
+            mess = loader.render_to_string(email_template_name, context)
+            email1 = mail.EmailMessage(subject, mess, from_email,
+                                       [to_email], connection=connection)
+            n = email1.send()
+            print('n', n)
+            connection.close()
+        else:
+            print('not open(')
+            subject = loader.render_to_string(subject_template_name, context)
+            # Email subject *must not* contain newlines
+            subject = ''.join(subject.splitlines())
+            print('context', context)
+            mess = loader.render_to_string(email_template_name, context)
+            email1 = mail.EmailMessage(subject, mess, from_email,
+                                       [to_email], connection=connection)
+            n = email1.send()
+            print('n', n)
+
+    def save(self, user_object, request):
+        print('save')
+        username = user_object.username
+        print('username', username)
+        email = user_object.email
+        current_site = get_current_site(request)
+        domain = current_site.domain
+
+        context = {'email': email,
+                   'uname': urlsafe_base64_encode(force_bytes(username)).decode(),
+                   'token': default_token_generator.make_token(user_object),
+                   'protocol': 'http',
+                   'domain': domain}
+
+        self.send_email(self.subject_template_name, self.email_template_name, context, self.from_email, email)
 
 
 class TyskUserCreationForm(UserCreationForm):
