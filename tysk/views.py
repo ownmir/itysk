@@ -676,26 +676,33 @@ class PatientDetail(generic.DetailView):
 class PatientCreate(generic.CreateView):
     model = models.Patient
     template_name = 'tysk/form.html'
-    form_class = forms.MedicamentCreateForm
+    # form_class = forms.PatientCreateForm
 
-    def get(self, request, *args, **kwargs):
-        if not self.request.user.is_authenticated:
-            return index(request)
-        if self.request.user.is_superuser:
-            self.form_class = forms.PatientSuperUserCreateForm
-            print('self.form_class', self.form_class)
-        form = self.form_class(initial={'user': self.request.user})
-        context = {}
-        context['active'] = 'patient-add'
-        context['model_title'] = 'Пацієнти'
-        context['title'] = 'Додавання'
-        context['submit'] = 'Додати'
-        context['form'] = form
-        return render(request, self.template_name, context)
+    # def get(self, request, *args, **kwargs):
+    #     if not self.request.user.is_authenticated:
+    #         return index(request)
+    #     if self.request.user.is_superuser:
+    #         self.form_class = forms.PatientSuperUserCreateForm
+    #         print('self.form_class (суперюзер)', self.form_class)
+    #     form = self.form_class(initial={'user': self.request.user})
+    #     print('self.form_class', self.form_class)
+    #     print('form', form)
+    #     context = {}
+    #     context['active'] = 'patient-add'
+    #     context['model_title'] = 'Пацієнти'
+    #     context['title'] = 'Додавання'
+    #     context['submit'] = 'Додати'
+    #     context['form'] = form
+    #     return render(request, self.template_name, context)
+    #
+    # def post(self, request, *args, **kwargs):
+    #     if not self.request.user.is_authenticated:
+    #         return index(request)
 
-    def post(self, request, *args, **kwargs):
-        if not self.request.user.is_authenticated:
-            return index(request)
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.save()
+
 
 class DoctorsList(generic.ListView):
     model = models.Doctor

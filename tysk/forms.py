@@ -168,7 +168,7 @@ class MedicamentSuperUserUpdateForm(forms.ModelForm):
 class PatientCreateForm(forms.ModelForm):
     class Meta:
         model = models.Patient
-        fields = ['user', 'doctors', 'male']
+        fields = ['doctors', 'male', 'user']
         widgets = {'user': forms.HiddenInput}
 
 

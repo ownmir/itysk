@@ -7,7 +7,8 @@
     <title>{% block title %}{% endblock %}</title>
     <meta name="description" content="Зберігайте історію тиска, пульса та прийому лікарских засобів Вами, Вашими батьками для лікаря">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="{% static 'tysk/img/health.png' %}">
+    <link rel="icon" type="image/jpg" href="{% static 'tysk/img/health.png' %}">
     {% block css %}
         <!-- Styles -->
         <link href="{% static 'tysk/css/app.min.css'%}" rel="stylesheet">

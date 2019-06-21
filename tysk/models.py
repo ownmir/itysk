@@ -32,7 +32,7 @@ class Patient(models.Model):
         verbose_name = 'пацієнт'
         verbose_name_plural = 'пацієнти'
 
-    user = models.OneToOneField(User, verbose_name='користувач', on_delete=models.CASCADE)
+    user = models.OneToOneField(User, verbose_name='користувач', on_delete=models.CASCADE, default=get_default_user())
     doctors = models.ManyToManyField('Doctor', verbose_name='лікар')
     male = models.BooleanField(verbose_name='стать', default=True)
 
