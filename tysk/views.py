@@ -54,6 +54,7 @@ def index(request):
     user = request.user
     if not request.user.is_authenticated:
         create_user_self(request)
+        print("create_user_self виконано!")
     if request.method == 'POST':
         main_form = forms.IndexForm(request.POST)
         upper = request.POST['upper']
@@ -207,6 +208,12 @@ def create_user_self(request):
         user.groups.set(Group.objects.all())
         user.save()
         print('*** test user created in views/create_user_self()! ***')
+    try:
+        medicament = models.Medicament.objects.get(name="Не приймали")
+    except ObjectDoesNotExist:
+        medicament = models.Medicament.objects.create(name="Не приймали")
+        medicament.save()
+        print("Стандартний медикамент 'Не приймали' створено!")
     return
 
 
@@ -665,6 +672,30 @@ class PatientDetail(generic.DetailView):
         context['is_authenticated'] = self.request.user.is_authenticated
         return context
 
+
+class PatientCreate(generic.CreateView):
+    model = models.Patient
+    template_name = 'tysk/form.html'
+    form_class = forms.MedicamentCreateForm
+
+    def get(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return index(request)
+        if self.request.user.is_superuser:
+            self.form_class = forms.PatientSuperUserCreateForm
+            print('self.form_class', self.form_class)
+        form = self.form_class(initial={'user': self.request.user})
+        context = {}
+        context['active'] = 'patient-add'
+        context['model_title'] = 'Пацієнти'
+        context['title'] = 'Додавання'
+        context['submit'] = 'Додати'
+        context['form'] = form
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return index(request)
 
 class DoctorsList(generic.ListView):
     model = models.Doctor

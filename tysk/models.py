@@ -77,6 +77,10 @@ class Medicament(models.Model):
 
 # Головна
 class Main(models.Model):
+    class Meta:
+        verbose_name = 'головна'
+        verbose_name_plural = 'головні'
+
     patient = models.ForeignKey(Patient, verbose_name='пацієнт', on_delete=models.CASCADE)
     doctor = models.ForeignKey(Doctor, verbose_name='лікар', on_delete=models.CASCADE)  # , help_text='Виберіть лікарів, або значення "Я сам"'
     date = models.DateField('дата вимірювання', default=localtime(now()).date())
