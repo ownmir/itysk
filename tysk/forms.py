@@ -166,6 +166,12 @@ class MedicamentSuperUserUpdateForm(forms.ModelForm):
 
 
 class PatientCreateForm(forms.ModelForm):
+    GENDER_CHOICES = (
+        (True, 'Чол'),
+        (False, 'Жін '),
+    )
+    male = forms.ChoiceField(choices=GENDER_CHOICES, label='Стать', widget=forms.RadioSelect())
+
     class Meta:
         model = models.Patient
         fields = ['doctors', 'male', 'user']

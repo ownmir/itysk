@@ -643,6 +643,7 @@ class UserPasswordResetCompleteView(PasswordResetCompleteView):
     model = User
     template_name = 'tysk/user/user-reset-pass-complete.html'
 
+
 class PatientsList(generic.ListView):
     model = models.Patient
     template_name = 'tysk/patient/patients-list.html'
@@ -671,37 +672,6 @@ class PatientDetail(generic.DetailView):
         context['active'] = 'patient-detail'
         context['is_authenticated'] = self.request.user.is_authenticated
         return context
-
-
-class PatientCreate(generic.CreateView):
-    model = models.Patient
-    template_name = 'tysk/form.html'
-    # form_class = forms.PatientCreateForm
-
-    # def get(self, request, *args, **kwargs):
-    #     if not self.request.user.is_authenticated:
-    #         return index(request)
-    #     if self.request.user.is_superuser:
-    #         self.form_class = forms.PatientSuperUserCreateForm
-    #         print('self.form_class (суперюзер)', self.form_class)
-    #     form = self.form_class(initial={'user': self.request.user})
-    #     print('self.form_class', self.form_class)
-    #     print('form', form)
-    #     context = {}
-    #     context['active'] = 'patient-add'
-    #     context['model_title'] = 'Пацієнти'
-    #     context['title'] = 'Додавання'
-    #     context['submit'] = 'Додати'
-    #     context['form'] = form
-    #     return render(request, self.template_name, context)
-    #
-    # def post(self, request, *args, **kwargs):
-    #     if not self.request.user.is_authenticated:
-    #         return index(request)
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        form.save()
 
 
 class DoctorsList(generic.ListView):
@@ -852,22 +822,6 @@ class MedicamentCreate(generic.CreateView):
     template_name = 'tysk/form.html'
     form_class = forms.MedicamentCreateForm
 
-    # def get_context_data(self, **kwargs):
-    #     context = super(MedicamentCreate, self).get_context_data(**kwargs)
-    #     context['active'] = 'medicament-add'
-    #     context['model_title'] = 'Ліки'
-    #     context['title'] = 'Додавання'
-    #     context['submit'] = 'Додати'
-    #     return context
-    #
-    # def get_queryset(self):
-    #     if not self.request.user.is_authenticated:
-    #         return
-    #     qs = super(MedicamentCreate, self).get_queryset()
-    #     if self.request.user.is_superuser:
-    #         return qs
-    #     return qs.filter(owner=self.request.user)
-
     def get(self, request, *args, **kwargs):
         if not self.request.user.is_authenticated:
             return index(request)
@@ -898,7 +852,7 @@ class MedicamentCreate(generic.CreateView):
                 to_user['title'] = 'Додавання'
                 to_user['submit'] = 'Додати'
                 to_user['e500'] = 'Не можна додати стандартне значення.'
-                return render(request, '500.html', to_user)
+                return render(request, 'tysk/500.html', to_user)
                 # return  HttpResponse('<h1>Помилка:</h1><h2>Не можна додати стандартне значення.</h2>')
         if self.request.user.is_superuser:
             self.form_class = forms.MedicamentSuperUserCreateForm
@@ -982,16 +936,64 @@ class MedicamentDelete(generic.DeleteView):
 
 class PatientCreate(generic.CreateView):
     model = models.Patient
-    fields = ['user', 'doctors', 'male']
     template_name = 'tysk/form.html'
+    form_class = forms.PatientCreateForm
 
-    def get_context_data(self, **kwargs):
-        context = super(PatientCreate, self).get_context_data(**kwargs)
+    def get(self, request, *args, **kwargs):
+        print("get")
+        if not self.request.user.is_authenticated:
+            return index(request)
+        if self.request.user.is_superuser:
+            self.form_class = forms.PatientSuperUserCreateForm
+            print('self.form_class (суперюзер)', self.form_class)
+        context = {}
         context['active'] = 'patient-add'
-        context['model_title'] = 'Пацієнт'
+        context['model_title'] = 'Пацієнти'
         context['title'] = 'Додавання'
         context['submit'] = 'Додати'
-        return context
+        form = self.form_class(auto_id=False, initial={'user': self.request.user, 'male': True})
+        context['form'] = form
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return index(request)
+        if self.request.user.is_superuser:
+            self.form_class = forms.PatientSuperUserCreateForm
+        context = {}
+        context['active'] = 'patient-add'
+        context['model_title'] = 'Пацієнти'
+        context['title'] = 'Додавання'
+        context['submit'] = 'Додати'
+        patient_object = self.model()
+        gender = request.POST['male']
+        print('gender', gender)
+        # if gender == 'male':
+        #     patient_object.male = True
+        # else:
+        #     patient_object.male = False
+        form = self.form_class(self.request.POST, instance=patient_object)
+        context['form'] = form
+        if form.is_valid():
+            form.save()
+            context = {}
+            context['active'] = 'patient-list'
+            context['is_authenticated'] = self.request.user.is_authenticated
+            if self.request.user.is_superuser:
+                patient_list = self.model.objects.all()
+            else:
+                patient_list = self.model.objects.filter(user=self.request.user)
+            context['patient_list'] = patient_list
+            return render(request, 'tysk/patient/patients-list.html', context)
+        else:
+            print(form.errors)
+        return render(request, self.template_name, context)
+
+
+def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.save()
+        return super(PatientCreate, self).form_valid(form)
 
 
 class PatientUpdate(generic.UpdateView):
