@@ -32,7 +32,10 @@ class Patient(models.Model):
         verbose_name = 'пацієнт'
         verbose_name_plural = 'пацієнти'
 
-    user = models.OneToOneField(User, verbose_name='користувач', on_delete=models.CASCADE, default=get_default_user())
+    user = models.OneToOneField(User, verbose_name='користувач', on_delete=models.CASCADE, default=get_default_user(),
+                                error_messages={'unique':
+                                                'Пацієнт з таким користувачем вже існує. '
+                                                'Змініть цього пацієнта або зареєструйте нового користувача.'})
     doctors = models.ManyToManyField('Doctor', verbose_name='лікар')
     male = models.BooleanField(verbose_name='стать', default=True)
 
@@ -82,7 +85,8 @@ class Main(models.Model):
         verbose_name_plural = 'головні'
 
     patient = models.ForeignKey(Patient, verbose_name='пацієнт', on_delete=models.CASCADE)
-    doctor = models.ForeignKey(Doctor, verbose_name='лікар', on_delete=models.CASCADE)  # , help_text='Виберіть лікарів, або значення "Я сам"'
+    doctor = models.ForeignKey(Doctor, verbose_name='лікар',
+                               on_delete=models.CASCADE)  # , help_text='Виберіть лікарів, або значення "Я сам"'
     date = models.DateField('дата вимірювання', default=localtime(now()).date())
     time = models.TimeField('час вимірювання', default=localtime(now()).time())
     upper = models.PositiveSmallIntegerField('верхній',

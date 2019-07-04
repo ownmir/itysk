@@ -178,7 +178,30 @@ class PatientCreateForm(forms.ModelForm):
         widgets = {'user': forms.HiddenInput}
 
 
-class PatientSuperUserCreateForm(forms.ModelForm):
+class PatientSuperUserCreateForm(PatientCreateForm):
+    print('dir(PatientCreateForm)', dir(PatientCreateForm))
+    # male = PatientCreateForm.male
+
+    class Meta:
+        model = models.Patient
+        fields = ['user', 'doctors', 'male']
+
+
+class PatientUpdateForm(forms.ModelForm):
+    GENDER_CHOICES = (
+        (True, 'Чол'),
+        (False, 'Жін '),
+    )
+    male = forms.ChoiceField(choices=GENDER_CHOICES, label='Стать', widget=forms.RadioSelect())
+
+    class Meta:
+        model = models.Patient
+        fields = ['doctors', 'male', 'user']
+        widgets = {'user': forms.HiddenInput}
+
+
+class PatientSuperUserUpdateForm(PatientUpdateForm):
+
     class Meta:
         model = models.Patient
         fields = ['user', 'doctors', 'male']

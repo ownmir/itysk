@@ -14,6 +14,7 @@ from decouple import config
 
 from . import forms
 from . import models
+from .utilities import which_invoked
 from django.contrib.auth.views import PasswordResetConfirmView, PasswordResetCompleteView
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
@@ -939,6 +940,7 @@ class PatientCreate(generic.CreateView):
     template_name = 'tysk/form.html'
     form_class = forms.PatientCreateForm
 
+    @method_decorator(which_invoked)
     def get(self, request, *args, **kwargs):
         print("get")
         if not self.request.user.is_authenticated:
@@ -977,7 +979,7 @@ class PatientCreate(generic.CreateView):
         if form.is_valid():
             form.save()
             context = {}
-            context['active'] = 'patient-list'
+            context['active'] = 'patient-create'
             context['is_authenticated'] = self.request.user.is_authenticated
             if self.request.user.is_superuser:
                 patient_list = self.model.objects.all()
@@ -990,17 +992,13 @@ class PatientCreate(generic.CreateView):
         return render(request, self.template_name, context)
 
 
-def form_valid(self, form):
-        form.instance.user = self.request.user
-        form.save()
-        return super(PatientCreate, self).form_valid(form)
-
-
 class PatientUpdate(generic.UpdateView):
     model = models.Patient
-    fields = ['user', 'doctors', 'male']
+    # fields = ['user', 'doctors', 'male']
     template_name = 'tysk/form.html'
+    form_class = forms.PatientUpdateForm
 
+    @method_decorator(which_invoked)
     def get_context_data(self, **kwargs):
         context = super(PatientUpdate, self).get_context_data(**kwargs)
         context['active'] = 'patient-update'
@@ -1008,6 +1006,17 @@ class PatientUpdate(generic.UpdateView):
         context['title'] = 'Зміна'
         context['submit'] = 'Змінити'
         return context
+
+    @method_decorator(which_invoked)
+    def get(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return index(request)
+        if self.request.user.is_superuser:
+            self.form_class = forms.PatientSuperUserUpdateForm
+            print('self.form_class (суперюзер)', self.form_class)
+        self.object = self.get_object()
+        return render(request, self.template_name, self.get_context_data(context={}))
+        # HttpResponseRedirect('/tysk/patients/')
 
 
 class PatientDelete(generic.DeleteView):
