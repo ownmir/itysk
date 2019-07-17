@@ -71,12 +71,12 @@ def index(request):
                 from django.core import mail
                 connection = mail.get_connection()
                 if connection.open():
-                    subject = 'Тиск. tysk.ownsvit.top. Дата: ' + str(localtime().date()) + ' час ' + str(localtime().time())
-                    mess = 'Вітаю! Цей лист прийшов Вам з сайту tysk.ownsvit.top. Верхній тиск: ' + str(upper) + ' нижній ' + str(lower) + ' пульс ' + str(pulse)
+                    subject = 'Тиск. ownsvit.top/tysk. Дата: ' + str(localtime().date()) + ' час ' + str(localtime().time())
+                    mess = 'Вітаю! Цей лист прийшов Вам з сайту ownsvit.top/tysk. Верхній тиск: ' + str(upper) + ' нижній ' + str(lower) + ' пульс ' + str(pulse)
                     # email1 = mail.EmailMessage('Subject here', 'Here is the message.', 'admin@vfomin.pib.ua', ['vladimir.fomin@pib.ua'], connection=connection)
                     # TODO:
-                    email1 = mail.EmailMessage(subject, mess, 'admin@vfomin.pib.ua',
-                                               ['vladimir.fomin@pib.ua'], connection=connection)
+                    email1 = mail.EmailMessage(subject, mess, 'ownsvit@ukr.net',
+                                               ['jove@ukr.net'], connection=connection)
                     email1.send()
                     connection.close()
                     print(':-)')
