@@ -75,7 +75,7 @@ def index(request):
                     mess = 'Вітаю! Цей лист прийшов Вам з сайту ownsvit.top/tysk. Верхній тиск: ' + str(upper) + ' нижній ' + str(lower) + ' пульс ' + str(pulse)
                     # email1 = mail.EmailMessage('Subject here', 'Here is the message.', 'admin@vfomin.pib.ua', ['vladimir.fomin@pib.ua'], connection=connection)
                     # TODO:
-                    email1 = mail.EmailMessage(subject, mess, 'ownsvit@ukr.net',
+                    email1 = mail.EmailMessage(subject, mess, 'postmaster@ownsvit.top',
                                                ['jove@ukr.net'], connection=connection)
                     email1.send()
                     connection.close()
