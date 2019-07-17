@@ -76,7 +76,7 @@ def index(request):
                     # email1 = mail.EmailMessage('Subject here', 'Here is the message.', 'admin@vfomin.pib.ua', ['vladimir.fomin@pib.ua'], connection=connection)
                     # TODO:
                     email1 = mail.EmailMessage(subject, mess, 'postmaster@ownsvit.top',
-                                               ['jove@ukr.net'], connection=connection)
+                                               ['jove@ukr.net','test-y3wwu@mail-tester.com'], connection=connection)
                     email1.send()
                     connection.close()
                     print(':-)')
