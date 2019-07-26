@@ -114,11 +114,11 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "tysk/static"),
 )
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config('EMAIL_HOST', default='')
 EMAIL_PORT = 587
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-EMAIL_HOST_USER = 'postmaster@sandboxf4d433a760774750bbf8b99f992a0df2.mailgun.org'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_USE_TLS = True
 SITE_ID = 1
 AUTHENTICATION_BACKENDS = (

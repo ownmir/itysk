@@ -26,6 +26,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
+from django.template.loader import render_to_string
 
 
 def auth_or_create(request):
@@ -71,12 +72,13 @@ def index(request):
                 from django.core import mail
                 connection = mail.get_connection()
                 if connection.open():
-                    subject = 'Тиск. ownsvit.top/tysk. Дата: ' + str(localtime().date()) + ' час ' + str(localtime().time())
-                    mess = 'Вітаю! Цей лист прийшов Вам з сайту ownsvit.top/tysk. Верхній тиск: ' + str(upper) + ' нижній ' + str(lower) + ' пульс ' + str(pulse)
+                    subject = 'Тиск. ownsvit.top/tysk. Дата: ' + str(localtime().date()) + ', час ' + str(localtime().time())
+                    mess = 'Вітаю! \nЦей лист прийшов Вам з сайту ownsvit.top/tysk. Верхній тиск: ' + str(upper) + \
+                        ', нижній ' + str(lower) + ', пульс ' + str(pulse) + '.\n' + 'З повагою, команда Тиск.'
                     # email1 = mail.EmailMessage('Subject here', 'Here is the message.', 'admin@vfomin.pib.ua', ['vladimir.fomin@pib.ua'], connection=connection)
                     # TODO:
                     email1 = mail.EmailMessage(subject, mess, 'postmaster@ownsvit.top',
-                                               ['jove@ukr.net','test-y3wwu@mail-tester.com'], connection=connection)
+                                               [email], connection=connection)
                     email1.send()
                     connection.close()
                     print(':-)')
