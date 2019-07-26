@@ -73,14 +73,14 @@ def index(request):
                 from django.core import mail
                 connection = mail.get_connection()
                 if connection.open():
-                    there = '\n Поскаржитись на цей лист можна ' + render_to_string('tysk/contact_link.html',
-                        {'protocol': 'https://', 'domain': Site.objects.get_current(request).domain})
+                    there = '\n Поскаржитись на цей лист можна тут www.ownsvit.top/tysk/contact/ '
+                        # {'protocol': 'https://', 'domain': Site.objects.get_current(request).domain})
                     subject = 'Тиск. www.ownsvit.top/tysk/. Дата: ' + str(localtime().date()) + ', час ' + str(localtime().time())
-                    mess = 'Вітаю! \nЦей лист прийшов Вам з сайту www.ownsvit.top/tysk/. Верхній тиск: ' + str(upper) + \
+                    mess = 'Вітаю! \nЦей лист прийшов Вам з сайту www.ownsvit.top/tysk/ . Верхній тиск: ' + str(upper) + \
                         ', нижній ' + str(lower) + ', пульс ' + str(pulse) + '.\n З повагою, команда Тиск.'
-                    email1 = mail.EmailMultiAlternatives(subject, mess, 'postmaster@ownsvit.top',
+                    email1 = mail.EmailMessage(subject, mess + there, 'postmaster@ownsvit.top',
                                                [email], connection=connection)
-                    email1.attach_alternative(mess + there, 'text/html')
+                    # email1.attach_alternative(mess + there, 'text/html')
                     email1.send()
                     connection.close()
                     print(':-)')
