@@ -27,6 +27,7 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 from django.template.loader import render_to_string
+from django.contrib.sites.models import Site
 
 
 def auth_or_create(request):
@@ -72,13 +73,14 @@ def index(request):
                 from django.core import mail
                 connection = mail.get_connection()
                 if connection.open():
-                    subject = 'Тиск. ownsvit.top/tysk. Дата: ' + str(localtime().date()) + ', час ' + str(localtime().time())
-                    mess = 'Вітаю! \nЦей лист прийшов Вам з сайту ownsvit.top/tysk. Верхній тиск: ' + str(upper) + \
-                        ', нижній ' + str(lower) + ', пульс ' + str(pulse) + '.\n' + 'З повагою, команда Тиск.'
-                    # email1 = mail.EmailMessage('Subject here', 'Here is the message.', 'admin@vfomin.pib.ua', ['vladimir.fomin@pib.ua'], connection=connection)
-                    # TODO:
-                    email1 = mail.EmailMessage(subject, mess, 'postmaster@ownsvit.top',
+                    there = '\n Поскаржитись на цей лист можна ' + render_to_string('tysk/contact_link.html',
+                        {'protocol': 'https://', 'domain': Site.objects.get_current(request).domain})
+                    subject = 'Тиск. www.ownsvit.top/tysk/. Дата: ' + str(localtime().date()) + ', час ' + str(localtime().time())
+                    mess = 'Вітаю! \nЦей лист прийшов Вам з сайту www.ownsvit.top/tysk/. Верхній тиск: ' + str(upper) + \
+                        ', нижній ' + str(lower) + ', пульс ' + str(pulse) + '.\n З повагою, команда Тиск.'
+                    email1 = mail.EmailMultiAlternatives(subject, mess, 'postmaster@ownsvit.top',
                                                [email], connection=connection)
+                    email1.attach_alternative(mess + there, 'text/html')
                     email1.send()
                     connection.close()
                     print(':-)')
