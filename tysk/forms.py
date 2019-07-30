@@ -139,6 +139,14 @@ class IndexForm(forms.Form):
     email = forms.EmailField()
 
 
+class ContactForm(forms.Form):
+    name = forms.CharField(max_length=50, label='Ім`я:', widget=forms.TextInput(attrs={'class': 'form-control input-lg'
+        }))
+    email = forms.EmailField(label='Ваша електронна пошта:', widget=forms.EmailInput(attrs={'class': 'form-control input-lg'}))
+    message = forms.CharField(label='', widget=forms.Textarea(attrs={'class': 'form-control', 'rows': '5',
+        'placeholder': 'Повідомлення'}))
+
+
 class MedicamentCreateForm(forms.ModelForm):
     class Meta:
         model = models.Medicament

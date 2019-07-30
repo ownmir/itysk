@@ -509,6 +509,28 @@ def about(request):
 def contact(request):
     context = {'active': 'contact'}
     context.update(auth_or_create(request))
+    if request.method == 'POST':
+        contact_form = forms.ContactForm(request.POST)
+        if contact_form.is_valid():
+            name = contact_form.cleaned_data['name']
+            email = contact_form.cleaned_data['email']
+            message = contact_form.cleaned_data['message']
+            from django.core import mail
+            connection = mail.get_connection()
+            if connection.open():
+                subject = 'Тиск. Форма зворотнього зв`язку. Дата: ' + str(localtime().date()) + ', час ' + str(
+                    localtime().time())
+                mess = 'В формі зворотнього зв`язку з сайту www.ownsvit.top/tysk/ . Користувач з електронної поштою: ' \
+                       + email + ' ' + name + ', повідомив наступне : ' + message + '.\n З повагою, команда Тиск.'
+                email1 = mail.EmailMessage(subject, mess, 'postmaster@ownsvit.top',
+                                           ['ownsvit@ukr.net'], connection=connection)
+                # email1.attach_alternative(mess + there, 'text/html')
+                email1.send()
+                connection.close()
+                print(':-)')
+    else:
+        contact_form = forms.ContactForm()
+    context.update({'contact_form': contact_form})
     return render(request, 'tysk/contact.html', context)
 
 
