@@ -508,7 +508,7 @@ def about(request):
 
 def contact(request):
     context = {'active': 'contact'}
-    context.update(auth_or_create(request))
+    # context.update(auth_or_create(request))
     if request.method == 'POST':
         contact_form = forms.ContactForm(request.POST)
         if contact_form.is_valid():
