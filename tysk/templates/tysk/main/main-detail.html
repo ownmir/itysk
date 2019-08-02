@@ -25,7 +25,9 @@
         <p>Нижній - {{ main.lower}}</p>
         <p>Пульс - {{ main.pulse}}</p>
         <p>Ліки - {{ main.medicament}}</p>
-        <p>Власник - {{ main.owner }}</p>
+        {% if user.is_superuser %}
+            <p>Власник - {{ main.owner }}</p>
+        {% endif %}
         <div><a class="btn btn-success" href="{% url 'tysk:main-update' object.id %}">Змінити</a> </div>
     </div>
 

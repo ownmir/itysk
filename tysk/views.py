@@ -28,6 +28,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 from django.template.loader import render_to_string
 from django.contrib.sites.models import Site
+from django.db.models import Q
 
 
 def auth_or_create(request):
@@ -511,6 +512,9 @@ def contact(request):
     # context.update(auth_or_create(request))
     if request.method == 'POST':
         contact_form = forms.ContactForm(request.POST)
+        name = request.POST['name']
+        email = request.POST['email']
+        message = request.POST['message']
         if contact_form.is_valid():
             name = contact_form.cleaned_data['name']
             email = contact_form.cleaned_data['email']
@@ -528,6 +532,11 @@ def contact(request):
                 email1.send()
                 connection.close()
                 print(':-)')
+            else:
+                pass
+        else:
+            contact_form = forms.ContactForm(request.POST)
+            context.update({'contact_form': contact_form, 'name': name, 'email': email, 'message': message})
     else:
         contact_form = forms.ContactForm()
     context.update({'contact_form': contact_form})
@@ -681,13 +690,14 @@ class PatientsList(generic.ListView):
         context['is_authenticated'] = self.request.user.is_authenticated
         return context
 
-    """
-    def get(self, request, *args, **kwargs):
-        context = super(PatientsList, self).get_context_data(**kwargs)
-        context['active'] = 'patients-list'
-        context['is_authenticated'] = request.user.is_authenticated
-        return render(request, self.template_name, context)
-    """
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return
+        qs = super(PatientsList, self).get_queryset()
+        if self.request.user.is_superuser:
+            return qs
+        qs = qs.filter(Q(user=self.request.user) | Q(doctors__user=self.request.user))
+        return qs
 
 
 class PatientDetail(generic.DetailView):
@@ -710,6 +720,15 @@ class DoctorsList(generic.ListView):
         context['active'] = 'doctors-list'
         context['is_authenticated'] = self.request.user.is_authenticated
         return context
+
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return
+        qs = super(DoctorsList, self).get_queryset()
+        if self.request.user.is_superuser:
+            return qs
+        qs = qs.filter(Q(user=self.request.user) | Q(patients__user=self.request.user))
+        return qs
 
 
 class DoctorDetail(generic.DetailView):
@@ -738,7 +757,8 @@ class MainsList(generic.ListView):
         qs = super(MainsList, self).get_queryset()
         if self.request.user.is_superuser:
             return qs
-        return qs.filter(owner=self.request.user)
+        qs = qs.filter(Q(patient__user=self.request.user) | Q(doctor__user=self.request.user) | Q(owner=self.request.user))
+        return qs
 
 
 class MainDetail(generic.DetailView):
@@ -829,7 +849,6 @@ class MedicamentsList(generic.ListView):
         qs = super(MedicamentsList, self).get_queryset()
         if self.request.user.is_superuser:
             return qs
-        from django.db.models import Q
         qs = qs.filter(Q(owner=self.request.user) | Q(name='Не приймали'))
         return qs
 

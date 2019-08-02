@@ -27,15 +27,18 @@
               <form action="{% url 'tysk:contact' %}" method="post">
                   {% csrf_token %}
                 <div class="form-group">
-                  <input type="text" class="form-control input-lg" placeholder="Ім`я" name="name">
+                    {{ contact_form.name.errors }}
+                  <input type="text" class="form-control input-lg" placeholder="Ім`я" name="name" value="{{ name }}">
                 </div>
 
                 <div class="form-group">
-                  <input type="email" class="form-control input-lg" placeholder="Електронна пошта" name="email">
+                    {{ contact_form.email.errors }}
+                  <input type="email" class="form-control input-lg" placeholder="Електронна пошта" name="email" value="{{ email }}">
                 </div>
 
                 <div class="form-group">
-                  <textarea class="form-control" rows="5" placeholder="Повідомлення" name="message"></textarea>
+                    {{ contact_form.message.errors }}
+                  <textarea class="form-control" rows="5" placeholder="Повідомлення" name="message">{{ message }}</textarea>
                 </div>
 {#                  {{ contact_form }}#}
                 <button type="submit" class="btn btn-primary">Відправити</button>
