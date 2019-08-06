@@ -1063,6 +1063,35 @@ class PatientUpdate(generic.UpdateView):
         return render(request, self.template_name, self.get_context_data(context={}))
         # HttpResponseRedirect('/tysk/patients/')
 
+    def post(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return index(request)
+        if self.request.user.is_superuser:
+            self.form_class = forms.PatientSuperUserUpdateForm
+        context = {}
+        context['active'] = 'patient-update'
+        context['model_title'] = 'Пацієнти'
+        context['title'] = 'Зміна'
+        context['submit'] = 'Змінити'
+        patient_object = self.get_object()
+        # gender = request.POST['male']
+        form = self.form_class(self.request.POST, instance=patient_object)
+        context['form'] = form
+        if form.is_valid():
+            form.save()
+            context = {}
+            context['active'] = 'patient-update'
+            context['is_authenticated'] = self.request.user.is_authenticated
+            if self.request.user.is_superuser:
+                patient_list = self.model.objects.all()
+            else:
+                patient_list = self.model.objects.filter(user=self.request.user)
+            context['patient_list'] = patient_list
+            return render(request, 'tysk/patient/patients-list.html', context)
+        else:
+            print(form.errors)
+        return render(request, self.template_name, context)
+
 
 class PatientDelete(generic.DeleteView):
     model = models.Patient
