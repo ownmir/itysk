@@ -213,3 +213,33 @@ class PatientSuperUserUpdateForm(PatientUpdateForm):
     class Meta:
         model = models.Patient
         fields = ['user', 'doctors', 'male']
+
+
+class DoctorCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = models.Doctor
+        fields = ['patients', 'user']
+        widgets = {'user': forms.HiddenInput}
+
+
+class DoctorSuperUserCreateForm(DoctorCreateForm):
+
+    class Meta:
+        model = models.Doctor
+        fields = ['user', 'patients']
+
+
+class DoctorUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = models.Doctor
+        fields = ['patients', 'user']
+        widgets = {'user': forms.HiddenInput}
+
+
+class DoctorSuperUserUpdateForm(DoctorUpdateForm):
+
+    class Meta:
+        model = models.Doctor
+        fields = ['user', 'patients']

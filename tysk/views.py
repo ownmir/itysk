@@ -1124,16 +1124,31 @@ def code(request):
 
 class DoctorCreate(generic.CreateView):
     model = models.Doctor
-    fields = ['user', 'patients']
+    form_class = forms.DoctorCreateForm
     template_name = 'tysk/form.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(DoctorCreate, self).get_context_data(**kwargs)
+    # def get_context_data(self, **kwargs):
+    #     context = super(DoctorCreate, self).get_context_data(**kwargs)
+    #     context['active'] = 'doctor-add'
+    #     context['model_title'] = 'Лікар'
+    #     context['title'] = 'Додавання'
+    #     context['submit'] = 'Додати'
+    #     return context
+    #
+    def get(self, request, *args, **kwargs):
+        print("get")
+        if not self.request.user.is_authenticated:
+            return index(request)
+        if self.request.user.is_superuser:
+            self.form_class = forms.DoctorSuperUserCreateForm
+        context = {}
         context['active'] = 'doctor-add'
-        context['model_title'] = 'Лікар'
+        context['model_title'] = 'Лікарі'
         context['title'] = 'Додавання'
         context['submit'] = 'Додати'
-        return context
+        form = self.form_class(auto_id=False, initial={'user': self.request.user})
+        context['form'] = form
+        return render(request, self.template_name, context)
 
 
 class DoctorUpdate(generic.UpdateView):
