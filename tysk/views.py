@@ -727,7 +727,8 @@ class DoctorsList(generic.ListView):
         qs = super(DoctorsList, self).get_queryset()
         if self.request.user.is_superuser:
             return qs
-        qs = qs.filter(Q(user=self.request.user) | Q(patients__user=self.request.user))
+        qs = qs.filter(Q(user=self.request.user) | Q(patients__user=self.request.user) |
+                       Q(user=User.objects.get(username=config('self'))))
         return qs
 
 
