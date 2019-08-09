@@ -57,11 +57,7 @@
                         {% else %}
                             <li><a href="{% url 'tysk:patients-list' %}">Список</a> </li>
                         {% endif %}
-                        {% if active == 'patient-detail' %}
-                            <li disabled="disable"><a class="active" href="#" disabled="disable">Детально</a> </li>
-                        {% else %}
-                            <li disabled="disable"><a href="#" disabled="disable">Детально</a> </li>
-                        {% endif %}
+
                         {% if active == 'patient-add' %}
                             <li><a class="active" href="{% url 'tysk:patient-add' %}">Додати</a> </li>
                         {% else %}
@@ -81,11 +77,7 @@
                         {% else %}
                             <li><a href="{% url 'tysk:doctors-list' %}">Список</a> </li>
                         {% endif %}
-                        {% if active == 'doctor-detail'%}
-                            <li><a class="active" href="#">Детально</a> </li>
-                        {% else %}
-                            <li><a href="#">Детально</a> </li>
-                        {% endif %}
+
                         {% if active == 'doctor-add'%}
                             <li><a class="active" href="{% url 'tysk:doctor-add' %}">Додати</a> </li>
                         {% else %}
@@ -104,11 +96,6 @@
                             <li><a class="active" href="{% url 'tysk:mains-list' %}">Список</a> </li>
                         {% else %}
                             <li><a href="{% url 'tysk:mains-list' %}">Список</a> </li>
-                        {% endif %}
-                        {% if active == 'main-detail'%}
-                            <li><a class="active" href="#">Детально</a> </li>
-                        {% else %}
-                            <li><a href="#">Детально</a> </li>
                         {% endif %}
                         {% if active == 'main-add'%}
                             <li><a class="active"  href="{% url 'tysk:main-add' %}">Додати</a> </li>
@@ -129,11 +116,7 @@
                         {% else %}
                             <li><a href="{% url 'tysk:medicaments-list' %}">Список</a> </li>
                         {% endif %}
-                        {% if active == 'medicament-detail'%}
-                            <li><a class="active" href="#">Детально</a> </li>
-                        {% else %}
-                            <li><a href="#">Детально</a> </li>
-                        {% endif %}
+
                         {% if active == 'medicament-add'%}
                             <li><a class="active" href="{% url 'tysk:medicament-add' %}">Додати</a> </li>
                         {% else %}

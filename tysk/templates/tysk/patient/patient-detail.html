@@ -19,7 +19,9 @@
         <h5></h5>
         <p>
             username - {{ patient.user.username }}
+            {% if patient.user == user %}
             <span><a class="btn btn-success" href="{% url 'tysk:patient-update' object.id %}">Змінити</a> </span>
+            {% endif %}
         </p>
     </div>
 

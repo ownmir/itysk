@@ -714,11 +714,14 @@ class PatientDetail(generic.DetailView):
 class DoctorsList(generic.ListView):
     model = models.Doctor
     template_name = 'tysk/doctor/doctors-list.html'
+    # is_doctor = False
 
     def get_context_data(self, **kwargs):
         context = super(DoctorsList, self).get_context_data(**kwargs)
         context['active'] = 'doctors-list'
         context['is_authenticated'] = self.request.user.is_authenticated
+        # self.is_doctor = models.Doctor.objects.filter(user=self.request.user).exists()
+        # context['is_doctor'] = self.is_doctor
         return context
 
     def get_queryset(self):
@@ -727,8 +730,8 @@ class DoctorsList(generic.ListView):
         qs = super(DoctorsList, self).get_queryset()
         if self.request.user.is_superuser:
             return qs
-        qs = qs.filter(Q(user=self.request.user) | Q(patients__user=self.request.user) |
-                       Q(user=User.objects.get(username=config('self'))))
+        # qs = qs.filter(user=self.request.user)
+        qs = qs.exclude(patient__user__username=config('self'))
         return qs
 
 

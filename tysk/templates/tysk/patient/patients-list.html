@@ -27,14 +27,18 @@
                         <a class="col-sm-12 col-sm-8" href="{% url 'tysk:patient-detail' patient_item.id %}">
                             {{ patient_item.user.last_name }}</a>
                         <span class="col-xs-12 col-sm-2">
+                            {% if user == patient_item.user %}
                             <a class="btn btn-success btn-outline btn-xs" href="{% url 'tysk:patient-update' patient_item.id %}">
                                 Змінити
                             </a>
+                            {% endif %}
                         </span>
                         <span class="col-xs-12 col-sm-2">
+                            {% if user == patient_item.user %}
                             <a class="btn btn-danger btn-outline btn-xs" href="{% url 'tysk:patient-delete' patient_item.id %}">
                                 Видалити
                             </a>
+                            {% endif %}
                         </span>
                     </p>
                 {% endfor %}
