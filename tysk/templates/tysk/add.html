@@ -1,0 +1,74 @@
+{% extends 'tysk/index.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Тиск - {{ model_title }} - {{ title }}{% endblock %}
+{% block header %}
+    <!-- Site header -->
+    <header class="page-header bg-img size-lg" style="background-image: url({% static 'tysk/img/bg-banner2.jpg' %})"
+            xmlns="http://www.w3.org/1999/html">
+      <div class="container no-shadow">
+        <h1 class="text-center">{{ model_title }}, {{ title|lower }}</h1>
+        <p class="lead text-center">{{ object.user.first_name }}</p>
+            <style>
+               li {
+                list-style-type: none; /* Убираем маркеры */
+                   text-align: center;
+               }
+               ul {
+                margin-left: 0; /* Отступ слева в браузере IE и Opera */
+                padding-left: 0; /* Отступ слева в браузере Firefox, Safari, Chrome */
+
+               }
+              </style>
+      </div>
+    </header>
+    <!-- END Site header -->
+{% endblock %}
+{% block content %}
+<main>
+    <div class="container login-block">
+        {% if user.is_authenticated %}
+            <img src="{% static 'tysk/img/logo.jpg' %}" id="click-me" alt="">
+
+            <h5 class="error">
+                Неможливо створити ще одного {{ who }} для того ж самого користувача. Ви можете створити нового:
+            </h5>
+
+            <a href="{% url 'tysk:register' %}" class="btn btn-success"> Новий користувач </a>
+
+            <h5 class="error">
+                чи змінити існуючого.
+            </h5>
+            <p class="text-center">
+            {% if active == 'patient-add' %}
+                <a href="{% url 'tysk:patients-list' %}">До списку</a>
+            {% else %}
+                <a href="{% url 'tysk:doctors-list' %}">До списку</a>
+            {% endif %}
+             </p>
+        {% else %}
+            <header class="section-header">
+                <span>Ви не ввійшли</span>
+            </header>
+        {% endif %} {# {% if user.is_authenticated %} #}
+    </div>
+
+      <div class="container login-links">
+        <p class="text-center"><a href="{% url 'tysk:index' %}">На початкову</a></p>
+      </div>
+</main>
+{% endblock content %}
+{% block script %}
+    {{ block.super }}
+    <script>
+        //$(document).ready(function() {
+        //var max = 0;
+        //$("label").each(function(){
+            //if ($(this).width() > max)
+                //max = $(this).width();
+        //});
+        //$("label").width(max);
+        //});
+    </script>
+{% endblock %}
+</body>

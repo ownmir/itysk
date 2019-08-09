@@ -981,63 +981,6 @@ class MedicamentDelete(generic.DeleteView):
         return context
 
 
-class PatientCreate(generic.CreateView):
-    model = models.Patient
-    template_name = 'tysk/form.html'
-    form_class = forms.PatientCreateForm
-
-    @method_decorator(which_invoked)
-    def get(self, request, *args, **kwargs):
-        print("get")
-        if not self.request.user.is_authenticated:
-            return index(request)
-        if self.request.user.is_superuser:
-            self.form_class = forms.PatientSuperUserCreateForm
-            print('self.form_class (суперюзер)', self.form_class)
-        context = {}
-        context['active'] = 'patient-add'
-        context['model_title'] = 'Пацієнти'
-        context['title'] = 'Додавання'
-        context['submit'] = 'Додати'
-        form = self.form_class(auto_id=False, initial={'user': self.request.user, 'male': True})
-        context['form'] = form
-        return render(request, self.template_name, context)
-
-    def post(self, request, *args, **kwargs):
-        if not self.request.user.is_authenticated:
-            return index(request)
-        if self.request.user.is_superuser:
-            self.form_class = forms.PatientSuperUserCreateForm
-        context = {}
-        context['active'] = 'patient-add'
-        context['model_title'] = 'Пацієнти'
-        context['title'] = 'Додавання'
-        context['submit'] = 'Додати'
-        patient_object = self.model()
-        gender = request.POST['male']
-        print('gender', gender)
-        # if gender == 'male':
-        #     patient_object.male = True
-        # else:
-        #     patient_object.male = False
-        form = self.form_class(self.request.POST, instance=patient_object)
-        context['form'] = form
-        if form.is_valid():
-            form.save()
-            context = {}
-            context['active'] = 'patient-create'
-            context['is_authenticated'] = self.request.user.is_authenticated
-            if self.request.user.is_superuser:
-                patient_list = self.model.objects.all()
-            else:
-                patient_list = self.model.objects.filter(user=self.request.user)
-            context['patient_list'] = patient_list
-            return render(request, 'tysk/patient/patients-list.html', context)
-        else:
-            print(form.errors)
-        return render(request, self.template_name, context)
-
-
 class PatientUpdate(generic.UpdateView):
     model = models.Patient
     # fields = ['user', 'doctors', 'male']
@@ -1119,35 +1062,6 @@ def code(request):
     return render(request, 'tysk/Code/code.gen', context)
 
 
-class DoctorCreate(generic.CreateView):
-    model = models.Doctor
-    form_class = forms.DoctorCreateForm
-    template_name = 'tysk/form.html'
-
-    # def get_context_data(self, **kwargs):
-    #     context = super(DoctorCreate, self).get_context_data(**kwargs)
-    #     context['active'] = 'doctor-add'
-    #     context['model_title'] = 'Лікар'
-    #     context['title'] = 'Додавання'
-    #     context['submit'] = 'Додати'
-    #     return context
-    #
-    def get(self, request, *args, **kwargs):
-        print("get")
-        if not self.request.user.is_authenticated:
-            return index(request)
-        if self.request.user.is_superuser:
-            self.form_class = forms.DoctorSuperUserCreateForm
-        context = {}
-        context['active'] = 'doctor-add'
-        context['model_title'] = 'Лікарі'
-        context['title'] = 'Додавання'
-        context['submit'] = 'Додати'
-        form = self.form_class(auto_id=False, initial={'user': self.request.user})
-        context['form'] = form
-        return render(request, self.template_name, context)
-
-
 class DoctorUpdate(generic.UpdateView):
     model = models.Doctor
     form_class = forms.DoctorUpdateForm
@@ -1170,6 +1084,7 @@ class DoctorUpdate(generic.UpdateView):
         self.object = self.get_object()
         return render(request, self.template_name, self.get_context_data(context={}))
 
+
 class DoctorDelete(generic.DeleteView):
     model = models.Doctor
     template_name = 'tysk/confirm-delete.html'
@@ -1183,3 +1098,21 @@ class DoctorDelete(generic.DeleteView):
         context['submit'] = 'Видалити'
         return context
 
+
+def patient_add(request):
+    context = {}
+    context['who'] = 'паціента'
+    context['active'] = 'patient-add'
+    context['model_title'] = 'Пацієнти'
+    context['title'] = 'Додавання'
+    return render(request, 'tysk/add.html', context)
+
+
+def doctor_add(request):
+    context = {}
+    context['who'] = 'лікаря'
+    context['active'] = 'doctor-add'
+    context['model_title'] = 'Лікарі'
+    context['title'] = 'Додавання'
+    context['submit'] = 'Додати'
+    return render(request, 'tysk/add.html', context)
