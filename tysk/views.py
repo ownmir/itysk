@@ -749,6 +749,7 @@ class DoctorDetail(generic.DetailView):
 class MainsList(generic.ListView):
     model = models.Main
     template_name = 'tysk/main/mains-list.html'
+    paginate_by = 20
 
     def get_context_data(self, **kwargs):
         context = super(MainsList, self).get_context_data(**kwargs)
@@ -761,8 +762,14 @@ class MainsList(generic.ListView):
         qs = super(MainsList, self).get_queryset()
         if self.request.user.is_superuser:
             return qs
+        # medicament_1 = Medicament.objects.all().get(id=1)
+        # for i in range(10):
+        #     for patient_item in Patient.objects.all():
+        #         for doctor_item in Doctor.objects.all():
+        #             Main.objects.create(patient=patient_item, doctor=doctor_item, upper=110 + i, lower=70 + i,
+        #                                 pulse=60 + i, medicament=medicament_1)
         qs = qs.filter(Q(patient__user=self.request.user) | Q(doctor__user=self.request.user) | Q(owner=self.request.user))
-        return qs
+        return qs.order_by('-date', '-time')
 
 
 class MainDetail(generic.DetailView):

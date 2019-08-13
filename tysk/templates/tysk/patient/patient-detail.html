@@ -6,7 +6,7 @@
     <header class="page-header bg-img size-lg" style="background-image: url({% static 'tysk/img/bg-banner2.jpg' %})">
       <div class="container no-shadow">
         <h1 class="text-center">Пацієнт</h1>
-        <p class="lead text-center">last_name - {{ patient }} ({{ patient.user.username }})</p>
+        <p class="lead text-center">прізвище - {{ patient }}</p>
       </div>
     </header>
     <!-- END Site header -->
@@ -18,8 +18,8 @@
 
         <h5></h5>
         <p>
-            username - {{ patient.user.username }}
-            {% if patient.user == user %}
+            {% if patient.user == user or user.is_superuser %}
+                логін - {{ patient.user.username }}
             <span><a class="btn btn-success" href="{% url 'tysk:patient-update' object.id %}">Змінити</a> </span>
             {% endif %}
         </p>
