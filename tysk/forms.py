@@ -243,3 +243,12 @@ class DoctorSuperUserUpdateForm(DoctorUpdateForm):
     class Meta:
         model = models.Doctor
         fields = ['user', 'patients']
+
+
+class PatientChooseMainForm(forms.ModelForm):
+
+    patient = forms.ModelChoiceField(queryset=models.Patient.objects.get_queryset(), label='по пацієнту')
+
+    class Meta:
+        model = models.Main
+        fields = ['patient']

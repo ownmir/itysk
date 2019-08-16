@@ -1,0 +1,24 @@
+{#{% load el_pagination_tags %}#}
+{#                {% paginate main_list %}#}
+                {% for main_item in main_list %}
+                    <a class="col-xs-10 col-sm-10" href="{% url 'tysk:main-detail' main_item.id %}" title="{{ main_item.medicament }}">
+                        <span class="col-xs-2 col-sm-2"> {{ main_item.patient }} </span>
+                        <span class="col-xs-2 col-sm-2"> {{ main_item.doctor }} </span>
+                        <span class="col-xs-2 col-sm-2">{{ main_item.date|date:'d.m.Y' }} </span>
+                        <span class="col-xs-2 col-sm-2">{{ main_item.time }}</span>
+                        <span class="col-xs-2 col-sm-2" title="Верхній, нижній та пульс">{{ main_item.upper }} {{ main_item.lower }} {{ main_item.pulse }}</span>
+
+                    </a>
+                    <span class="col-xs-2 col-sm-1">
+                        <a class="btn btn-success btn-outline btn-xs" href="{% url 'tysk:main-update' main_item.id %}">
+                            Змінити
+                        </a>
+                    </span>
+                    <span class="col-xs-2 col-sm-1">
+                        <a class="btn btn-danger btn-outline btn-xs" href="{% url 'tysk:main-delete' main_item.id %}">
+                            Видалити
+                        </a>
+                    </span>
+                {% endfor %}
+{#                {% show_more %}#}
+                {% include 'tysk/includes/pagination.html' %}

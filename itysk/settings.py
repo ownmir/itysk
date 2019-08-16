@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
+    'el_pagination',
 ]
 
 MIDDLEWARE = [
@@ -57,8 +58,7 @@ ROOT_URLCONF = 'itysk.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'tysk/templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'tysk/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

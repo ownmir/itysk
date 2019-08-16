@@ -3,10 +3,13 @@
 {% block title %}Тиск - Головна - Список{% endblock %}
 {% block header %}
     <!-- Site header -->
-    <header class="page-header bg-img size-lg" style="background-image: url({% static 'tysk/img/bg-banner2.jpg' %})">
+{#    <header class="page-header bg-img size-lg" style="background-image: url({% static 'tysk/img/bg-banner2.jpg' %})">#}
+    <header class="page-header bg-img">
       <div class="container no-shadow">
-        <h1 class="text-center">Головний список</h1>
-        <p class="lead text-center">Бажаємо Вам здоров`я!</p>
+        <h4 class="text-center">Головний список</h4>
+        <p class="lead text-left">Фільтр
+            {{ form }}
+            Бажаємо Вам здоров`я!</p>
       </div>
     </header>
     <!-- END Site header -->
@@ -15,38 +18,20 @@
     <!-- Main container -->
     <main>
       <!--  -->
-      <section>
+      <section style="padding: 4px 2px">
+
           <div class="container login-block">
             {% if user.is_authenticated %}
             {% if main_list %}
-                <img src="{% static 'tysk/img/logo.jpg' %}" id="click-me" alt="">
-                <h5></h5>
-                <p>                {% for main_item in main_list %}
-                    <p>
-<a class="col-xs-10 col-sm-10" href="{% url 'tysk:main-detail' main_item.id %}" title="{{ main_item.medicament }}">
-    <span class="col-xs-2 col-sm-2"> {{ main_item.patient }} </span>
-    <span class="col-xs-2 col-sm-2"> {{ main_item.doctor }} </span>
-    <span class="col-xs-2 col-sm-2">{{ main_item.date|date:'d.m.Y' }} </span>
-    <span class="col-xs-2 col-sm-2">{{ main_item.time }}</span>
-    <span class="col-xs-2 col-sm-2" title="Верхній, нижній та пульс">{{ main_item.upper }} {{ main_item.lower }} {{ main_item.pulse }}</span>
 
-</a>
-                    <span class="col-xs-2 col-sm-1">
-                        <a class="btn btn-success btn-outline btn-xs" href="{% url 'tysk:main-update' main_item.id %}">
-                            Змінити
-                        </a>
-                    </span>
-                    <span class="col-xs-2 col-sm-1">
-                        <a class="btn btn-danger btn-outline btn-xs" href="{% url 'tysk:main-delete' main_item.id %}">
-                            Видалити
-                        </a>
-                    </span>
-                    </p>
-                {% endfor %}
-                {% include 'tysk/includes/pagination.html' %}
+
+                <span id="result">    {% include 'tysk/includes/list_ajax.html' %}</span>
+{#                <span id="result">    {% include page_template %}</span>#}
+
+{#                {% include 'tysk/includes/pagination.html' %}#}
             {% else %}
                 <img src="{% static 'tysk/img/sad.jpg' %}" id="click-me" alt="">
-                <p>Немає даних.</p>
+                <p>Немає даних.
             {% endif %}
             {% else %}
                 <header class="section-header">
@@ -62,3 +47,40 @@
     <!-- END Main container -->
 {% endblock content %}
 </body>
+{% block script %}
+    {{ block.super }}
+    <script>
+        var data = {"filter_value":''};
+        $(function () {
+    {#            изменение #}
+        $('#id_patient').on("change", function () {
+    {#                alert(data.order);#}
+            data.filter_value = this.value;
+            $.get("{% url 'tysk:mains-list' %}", data, filterVal, "json");
+        });
+        function filterVal (patient_list_ajax) {
+            $('#result').html(patient_list_ajax.html);
+    {#        $("#what_search").text(employees_list_ajax.search);#}
+    {#        $("#what_sort").text(employees_list_ajax.order);#}
+        }
+        });
+    </script>
+{#    <script src="{{ STATIC_URL }}el-pagination/js/el-pagination.js"></script>#}
+    <script src="{% static 'el-pagination/js/el-pagination.js' %}"></script>
+    <script>$.endlessPaginate({
+            onClick: function(context) {
+                console.log('Label:', $(this).text());
+                console.log('URL:', context.url);
+                console.log('Querystring key:', context.key);
+                if (forbidden) {  // to be defined...
+                    return false;
+                }
+            },
+            onCompleted: function(context, fragment) {
+                console.log('Label:', $(this).text());
+                console.log('URL:', context.url);
+                console.log('Querystring key:', context.key);
+                console.log('Fragment:', fragment);
+            }
+        });</script>
+{% endblock %}

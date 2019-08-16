@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 # typeerror-login-takes-1-positional-argument-but-2-were-given
 from django.utils.timezone import now, localtime
 from django.views import generic
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from itysk import settings
 from decouple import config
 
@@ -29,6 +29,9 @@ from django.views.generic.edit import FormView
 from django.template.loader import render_to_string
 from django.contrib.sites.models import Site
 from django.db.models import Q
+import json
+from el_pagination.views import AjaxListView
+from django.views.generic.list import MultipleObjectMixin, TemplateResponseMixin, View
 
 
 def auth_or_create(request):
@@ -746,14 +749,23 @@ class DoctorDetail(generic.DetailView):
         return context
 
 
-class MainsList(generic.ListView):
+class MainsList(MultipleObjectMixin, TemplateResponseMixin, View):
+    # class MainsList(generic.ListView):
+    # class MainsList(AjaxListView):
     model = models.Main
+    context_object_name = 'main_list'
     template_name = 'tysk/main/mains-list.html'
-    paginate_by = 20
+    # page_template = 'tysk/includes/list_ajax.html'
+    paginate_by = 9
 
     def get_context_data(self, **kwargs):
         context = super(MainsList, self).get_context_data(**kwargs)
+        paginator, page, cakes, is_paginate = self.paginate_queryset(self.get_queryset(),
+                                                                     self.paginate_by)
+        context['page'] = page
         context['active'] = 'mains-list'
+        form = forms.PatientChooseMainForm()
+        context['form'] = form
         return context
 
     def get_queryset(self):
@@ -768,8 +780,30 @@ class MainsList(generic.ListView):
         #         for doctor_item in Doctor.objects.all():
         #             Main.objects.create(patient=patient_item, doctor=doctor_item, upper=110 + i, lower=70 + i,
         #                                 pulse=60 + i, medicament=medicament_1)
-        qs = qs.filter(Q(patient__user=self.request.user) | Q(doctor__user=self.request.user) | Q(owner=self.request.user))
+        qs = qs.filter(
+            Q(patient__user=self.request.user) | Q(doctor__user=self.request.user) | Q(owner=self.request.user))
+        if self.request.is_ajax():
+            print('AJAX!')
+            qs = qs.filter(patient_id=self.request.GET['filter_value'])
+            # fragment = qs
+            return qs.order_by('-date', '-time')
+
         return qs.order_by('-date', '-time')
+
+    def get(self, request, *args, **kwargs):
+        self.object_list = self.get_queryset()
+        #     form = forms.PatientChooseMainForm()
+        context = self.get_context_data(**kwargs)
+        #     context['form'] = form
+        if request.is_ajax():
+            print('AJAX!')
+            # patient_list_ajax = self.object_list.filter(patient_id=request.GET['filter_value'])
+            patient_list_ajax = self.object_list
+            result = {"html": render_to_string('tysk/includes/list_ajax.html', {'main_list': patient_list_ajax})}
+            # return render(self.request, self.template_name, context)
+            return HttpResponse(json.dumps(result), content_type='aplication/json')
+        else:
+            return render(self.request, self.template_name, context)
 
 
 class MainDetail(generic.DetailView):
