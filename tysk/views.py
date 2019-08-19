@@ -756,21 +756,19 @@ class MainsList(MultipleObjectMixin, TemplateResponseMixin, View):
     context_object_name = 'main_list'
     template_name = 'tysk/main/mains-list.html'
     # page_template = 'tysk/includes/list_ajax.html'
-    paginate_by = 9
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super(MainsList, self).get_context_data(**kwargs)
-        paginator, page, cakes, is_paginate = self.paginate_queryset(self.get_queryset(),
-                                                                     self.paginate_by)
-        context['page'] = page
         context['active'] = 'mains-list'
         form = forms.PatientChooseMainForm()
         context['form'] = form
+        context['part_ajax_page_link'] = ""
         return context
 
     def get_queryset(self):
         if not self.request.user.is_authenticated:
-            return
+            return index(self.request)
         qs = super(MainsList, self).get_queryset()
         if self.request.user.is_superuser:
             return qs
@@ -783,7 +781,7 @@ class MainsList(MultipleObjectMixin, TemplateResponseMixin, View):
         qs = qs.filter(
             Q(patient__user=self.request.user) | Q(doctor__user=self.request.user) | Q(owner=self.request.user))
         if self.request.is_ajax():
-            print('AJAX!')
+            print('AJAX get_queryset!')
             qs = qs.filter(patient_id=self.request.GET['filter_value'])
             # fragment = qs
             return qs.order_by('-date', '-time')
@@ -791,15 +789,25 @@ class MainsList(MultipleObjectMixin, TemplateResponseMixin, View):
         return qs.order_by('-date', '-time')
 
     def get(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return index(self.request)
         self.object_list = self.get_queryset()
         #     form = forms.PatientChooseMainForm()
         context = self.get_context_data(**kwargs)
         #     context['form'] = form
         if request.is_ajax():
-            print('AJAX!')
+            print('AJAX get!')
             # patient_list_ajax = self.object_list.filter(patient_id=request.GET['filter_value'])
             patient_list_ajax = self.object_list
-            result = {"html": render_to_string('tysk/includes/list_ajax.html', {'main_list': patient_list_ajax})}
+            paginator, page, cakes, is_paginate = self.paginate_queryset(self.get_queryset(),
+                                                                         self.paginate_by)
+            part_ajax_page_link = "&filter_value=" + request.GET['filter_value']
+            # context['page'] = page
+            # context['paginator'] = paginator
+            result = {"html": render_to_string('tysk/includes/list_ajax.html', {
+                'main_list': patient_list_ajax, 'page': page, 'paginator': paginator, 'is_paginated': True,
+                    "part_ajax_page_link": part_ajax_page_link}),
+                      }
             # return render(self.request, self.template_name, context)
             return HttpResponse(json.dumps(result), content_type='aplication/json')
         else:
