@@ -51,6 +51,7 @@
     {{ block.super }}
     <script>
         var data = {"filter_value":''};
+        var data_click = {"page": "1", "filter_value": $('#id_patient').value};
         $(function () {
     {#            изменение #}
         $('#id_patient').on("change", function () {
@@ -64,6 +65,16 @@
     {#        $("#what_sort").text(employees_list_ajax.order);#}
         }
         });
+        function js_paginator(page_num, patient_filter) {
+            {#var url;#}
+            {#$.get("{% url 'tysk:mains-list' %}?page="+page_num+"&filter_value="+patient_filter, data_click, filterValPaginator, "json");#}
+            $.get("{% url 'tysk:mains-list' %}?filter_value="+patient_filter, data_click, filterValPaginator, "json");
+        }
+        function filterValPaginator (patient_list_ajax) {
+            $('#result').html(patient_list_ajax.html);
+    {#        $("#what_search").text(employees_list_ajax.search);#}
+    {#        $("#what_sort").text(employees_list_ajax.order);#}
+        }
     </script>
 {#    <script src="{{ STATIC_URL }}el-pagination/js/el-pagination.js"></script>#}
     <script src="{% static 'el-pagination/js/el-pagination.js' %}"></script>

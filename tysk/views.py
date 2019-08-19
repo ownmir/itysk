@@ -782,7 +782,22 @@ class MainsList(MultipleObjectMixin, TemplateResponseMixin, View):
             Q(patient__user=self.request.user) | Q(doctor__user=self.request.user) | Q(owner=self.request.user))
         if self.request.is_ajax():
             print('AJAX get_queryset!')
+            # qs = qs.filter(patient_id=self.request.GET['filter_value'])
             qs = qs.filter(patient_id=self.request.GET['filter_value'])
+            # try:
+            #     current_page = self.request.GET['page']
+            #     from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+            #     paginator = Paginator(qs, self.paginate_by)
+            #     try:
+            #         mains = paginator.page(current_page)
+            #     except PageNotAnInteger:
+            #         # If page is not an integer, deliver first page.
+            #         mains = paginator.page(1)
+            #     except EmptyPage:
+            #         # If page is out of range (e.g. 9999), deliver last page of results.
+            #         mains = paginator.page(paginator.num_pages)
+            # except KeyError:
+            #     pass
             # fragment = qs
             return qs.order_by('-date', '-time')
 
@@ -797,16 +812,15 @@ class MainsList(MultipleObjectMixin, TemplateResponseMixin, View):
         #     context['form'] = form
         if request.is_ajax():
             print('AJAX get!')
-            # patient_list_ajax = self.object_list.filter(patient_id=request.GET['filter_value'])
-            patient_list_ajax = self.object_list
-            paginator, page, cakes, is_paginate = self.paginate_queryset(self.get_queryset(),
+            paginator, page, patient_list_ajax, is_paginated = self.paginate_queryset(self.object_list,
                                                                          self.paginate_by)
-            part_ajax_page_link = "&filter_value=" + request.GET['filter_value']
+            filter_value = request.GET['filter_value']
+            part_ajax_page_link = "&filter_value=" + filter_value
             # context['page'] = page
             # context['paginator'] = paginator
             result = {"html": render_to_string('tysk/includes/list_ajax.html', {
                 'main_list': patient_list_ajax, 'page': page, 'paginator': paginator, 'is_paginated': True,
-                    "part_ajax_page_link": part_ajax_page_link}),
+                    "part_ajax_page_link": part_ajax_page_link, "patient_filter": filter_value}),
                       }
             # return render(self.request, self.template_name, context)
             return HttpResponse(json.dumps(result), content_type='aplication/json')

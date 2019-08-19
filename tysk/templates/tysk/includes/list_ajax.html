@@ -46,7 +46,12 @@ is_paginated: {{ is_paginated }}<br> paginator: {{ paginator }}
                       </li>
                     {% else %}
                       <li class="page-item">
-                        <a class="page-link" href="?page={{ page_num }}{{ part_ajax_page_link }}">{{ page_num }}</a>
+                        <a class="page-link"
+{#                           href="?page={{ page_num }}{{ part_ajax_page_link }}" onclick="">#}
+{#                           href="?page={{ page_num }}{{ part_ajax_page_link }}"#}
+                           onclick="js_paginator({{ page_num }}, {{ patient_filter }})">
+                            {{ page_num }}
+                        </a>
                       </li>
                     {% endif %}
                   {% endfor %}
