@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^doctors/(?P<pk>[0-9]+)/update/$', views.DoctorUpdate.as_view(), name='doctor-update'),
     url(r'^doctors/(?P<pk>[0-9]+)/confirm/$', views.DoctorDelete.as_view(), name='doctor-delete'),
     url(r'^mains/$', views.MainsList.as_view(), name='mains-list'),
+    url(r'^mainsget/$', views.main_filter, name='main-filter'),
     url(r'^mains/(?P<pk>[0-9]+)/$', views.MainDetail.as_view(), name='main-detail'),
     url(r'^mains/add/$', views.MainCreate.as_view(), name='main-add'),
     url(r'^mains/(?P<pk>[0-9]+)/update/$', views.MainUpdate.as_view(), name='main-update'),

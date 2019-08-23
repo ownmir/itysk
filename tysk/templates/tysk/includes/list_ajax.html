@@ -46,19 +46,19 @@ is_paginated: {{ is_paginated }}<br> paginator: {{ paginator }}
                       </li>
                     {% else %}
                       <li class="page-item">
-                        <a class="page-link"
+                        <button class="page-link"
 {#                           href="?page={{ page_num }}{{ part_ajax_page_link }}" onclick="">#}
-{#                           href="?page={{ page_num }}{{ part_ajax_page_link }}"#}
+{#                           href="?page_ajax={{ page_num }}{{ part_ajax_page_link }}"#}
                            onclick="js_paginator({{ page_num }}, {{ patient_filter }})">
                             {{ page_num }}
-                        </a>
+                        </button>
                       </li>
                     {% endif %}
                   {% endfor %}
 
                   {% if page_obj.has_next %}
                     <li class="page-item">
-                      <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                      <a class="page-link" href="?page_ajax={{ page_obj.next_page_number }}">Next</a>
                     </li>
                   {% else %}
                     <li class="page-item disabled">
@@ -68,3 +68,25 @@ is_paginated: {{ is_paginated }}<br> paginator: {{ paginator }}
                 </ul>
               </nav>
             {% endif %}
+<script>
+    function js_paginator(page_num, patient_filter) {
+            data_click.page_ajax = page_num;
+            data_click.filter_value = patient_filter;
+            if (patient_filter != undefined){
+                $.get("{% url 'tysk:mains-list' %}?page_ajax="+page_num+"&filter_value="+patient_filter,
+                    data_click, filterValPaginator, "json");}
+            else
+            {
+                $.get("{% url 'tysk:mains-list' %}?page="+page_num,
+                    data_click, filterValPaginator, "json");}
+            }
+            {#$.get("{% url 'tysk:mains-list' %}?filter_value="+patient_filter, data_click, filterValPaginator, "json");#}
+        }
+        function filterValPaginator (patient_list_ajax) {
+            $('#result').html(patient_list_ajax.html);
+            console.log("in function filterValPaginator");
+            alert("in function filterValPaginator");
+    {#        $("#what_search").text(employees_list_ajax.search);#}
+    {#        $("#what_sort").text(employees_list_ajax.order);#}
+        }
+</script>

@@ -32,6 +32,7 @@ from django.db.models import Q
 import json
 from el_pagination.views import AjaxListView
 from django.views.generic.list import MultipleObjectMixin, TemplateResponseMixin, View
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def auth_or_create(request):
@@ -757,6 +758,7 @@ class MainsList(MultipleObjectMixin, TemplateResponseMixin, View):
     template_name = 'tysk/main/mains-list.html'
     # page_template = 'tysk/includes/list_ajax.html'
     paginate_by = 5
+    extra_context = {'patient_filter': ''}
 
     def get_context_data(self, **kwargs):
         context = super(MainsList, self).get_context_data(**kwargs)
@@ -783,21 +785,49 @@ class MainsList(MultipleObjectMixin, TemplateResponseMixin, View):
         if self.request.is_ajax():
             print('AJAX get_queryset!')
             # qs = qs.filter(patient_id=self.request.GET['filter_value'])
-            qs = qs.filter(patient_id=self.request.GET['filter_value'])
-            # try:
-            #     current_page = self.request.GET['page']
-            #     from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-            #     paginator = Paginator(qs, self.paginate_by)
-            #     try:
-            #         mains = paginator.page(current_page)
-            #     except PageNotAnInteger:
-            #         # If page is not an integer, deliver first page.
-            #         mains = paginator.page(1)
-            #     except EmptyPage:
-            #         # If page is out of range (e.g. 9999), deliver last page of results.
-            #         mains = paginator.page(paginator.num_pages)
-            # except KeyError:
-            #     pass
+            try:
+                filter_value = self.request.GET['filter_value']
+                if filter_value != 'undefined':
+                    qs = qs.filter(patient_id=filter_value)
+            except MultiValueDictKeyError:
+                pass
+            try:
+                page_value = self.request.GET['page']
+                paginator = Paginator(qs, self.paginate_by)
+                try:
+                    mains = paginator.page(page_value)
+                    bottom = (int(page_value) - 1) * paginator.per_page
+                    top = bottom + paginator.per_page
+                    if top + paginator.orphans >= paginator.count:
+                        top = paginator.count
+                    return qs.order_by('-date', '-time')[bottom:top]
+                except PageNotAnInteger:
+                    # mains = paginator.page(1)  (first per_page):)
+                    return qs.order_by('-date', '-time')[0:paginator.per_page]
+                except EmptyPage:
+                    # mains = paginator.page(paginator.num_pages) (last page)
+                    bottom = (paginator.num_pages - 1) * paginator.per_page
+                    return qs.order_by('-date', '-time')[bottom:paginator.count]
+            except MultiValueDictKeyError:
+                try:
+                    page_value = self.request.GET['page_ajax']
+                    paginator = Paginator(qs, self.paginate_by)
+                    try:
+                        mains = paginator.page(page_value)
+                        bottom = (int(page_value) - 1) * paginator.per_page
+                        top = bottom + paginator.per_page
+                        if top + paginator.orphans >= paginator.count:
+                            top = paginator.count
+                        return qs.order_by('-date', '-time')[bottom:top]
+                    except PageNotAnInteger:
+                        # mains = paginator.page(1)  (first per_page):)
+                        return qs.order_by('-date', '-time')[0:paginator.per_page]
+                    except EmptyPage:
+                        # mains = paginator.page(paginator.num_pages) (last page)
+                        bottom = (paginator.num_pages - 1) * paginator.per_page
+                        return qs.order_by('-date', '-time')[bottom:paginator.count]
+                except MultiValueDictKeyError:
+                    pass
             # fragment = qs
             return qs.order_by('-date', '-time')
 
@@ -807,15 +837,26 @@ class MainsList(MultipleObjectMixin, TemplateResponseMixin, View):
         if not self.request.user.is_authenticated:
             return index(self.request)
         self.object_list = self.get_queryset()
-        #     form = forms.PatientChooseMainForm()
         context = self.get_context_data(**kwargs)
-        #     context['form'] = form
         if request.is_ajax():
             print('AJAX get!')
+            try:
+                filter_value = request.GET['filter_value']
+                part_ajax_page_link = "&filter_value=" + filter_value
+                self.object_list = self.object_list.filter(patient_id=filter_value)
+            except MultiValueDictKeyError:
+                filter_value = ''
+                part_ajax_page_link = ''
             paginator, page, patient_list_ajax, is_paginated = self.paginate_queryset(self.object_list,
                                                                          self.paginate_by)
-            filter_value = request.GET['filter_value']
-            part_ajax_page_link = "&filter_value=" + filter_value
+            try:
+                page_value = request.GET['page_ajax']
+            except MultiValueDictKeyError:
+                try:
+                    page_value = request.GET['page']
+                except MultiValueDictKeyError:
+                    pass
+
             # context['page'] = page
             # context['paginator'] = paginator
             result = {"html": render_to_string('tysk/includes/list_ajax.html', {
@@ -825,6 +866,10 @@ class MainsList(MultipleObjectMixin, TemplateResponseMixin, View):
             # return render(self.request, self.template_name, context)
             return HttpResponse(json.dumps(result), content_type='aplication/json')
         else:
+            try:
+                page_value = request.GET['page']
+            except MultiValueDictKeyError:
+                pass
             return render(self.request, self.template_name, context)
 
 
@@ -1182,3 +1227,47 @@ def doctor_add(request):
     context['title'] = 'Додавання'
     context['submit'] = 'Додати'
     return render(request, 'tysk/add.html', context)
+
+
+def main_filter(request):
+    context = {}
+    context['active'] = 'mains-list'
+    form = forms.PatientChooseMainForm()
+    context['form'] = form
+    patients = models.Patient.objects.all()
+    context['patients'] = patients
+    mains = models.Main.objects.all()
+    # from get
+    patient_filter = request.GET.get("patient", 'all')
+    if patient_filter != 'all':
+        context['is_patient_filter'] = True
+        mains = mains.filter(patient_id=patient_filter)
+        # save to session
+        request.session['patient_filter'] = patient_filter
+        request.session['name_filter'] = 'patient'
+    page = request.GET.get('page', '1')
+    name_filter = request.session.get('name_filter', '')
+    from_session_patient_filter = request.session.get('patient_filter', 'all')
+    if name_filter != '':
+        context['name_filter'] = "&" + name_filter + "="
+    if from_session_patient_filter != 'all':
+        context['is_patient_filter'] = True
+        mains = mains.filter(patient_id=from_session_patient_filter)
+    if page == 'all':
+        context['main_list'] = mains
+    else:
+        context['is_paginated'] = True
+        paginator = Paginator(mains.order_by('id'), 30)
+        try:
+            main_list = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            main_list = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            main_list = paginator.page(paginator.num_pages)
+        context['main_list'] = main_list
+        context['paginator'] = paginator
+
+    # return render(request, 'tysk/main_filter.html', context)
+    return render(request, 'tysk/main/mains-list.html', context)
