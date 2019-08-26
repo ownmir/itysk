@@ -1235,7 +1235,16 @@ def main_filter(request):
     form = forms.PatientChooseMainForm()
     context['form'] = form
     patients = models.Patient.objects.all()
-    context['patients'] = patients
+    page_patient = request.GET.get('page_patient', 1)
+    context['patient_paginated'] = True
+    patient_paginator = Paginator(patients, 1)
+    try:
+        patient_list = patient_paginator.page(page_patient)
+    except PageNotAnInteger:
+        patient_list = patient_paginator.page(1)
+    except EmptyPage:
+        patient_list = patient_paginator.page(patient_paginator.num_pages)
+    context['patients'] = patient_list
     mains = models.Main.objects.all()
     # from get
     patient_filter = request.GET.get("patient", 'all')
