@@ -1231,13 +1231,17 @@ def doctor_add(request):
 
 def main_filter(request):
     context = {}
-    context['active'] = 'mains-list'
+    context['active'] = 'mains-list-filter'
     form = forms.PatientChooseMainForm()
     context['form'] = form
+    # This is the pagination for the patient filter
     patients = models.Patient.objects.all()
     page_patient = request.GET.get('page_patient', 1)
-    context['patient_paginated'] = True
-    patient_paginator = Paginator(patients, 1)
+    if patients.count() > 5:
+        context['patient_paginated'] = True
+    else:
+        context['patient_paginated'] = False
+    patient_paginator = Paginator(patients, 5)
     try:
         patient_list = patient_paginator.page(page_patient)
     except PageNotAnInteger:
@@ -1248,20 +1252,73 @@ def main_filter(request):
     mains = models.Main.objects.all()
     # from get
     patient_filter = request.GET.get("patient", 'all')
-    if patient_filter != 'all':
+    if patient_filter != 'all' and patient_filter != '' and patient_filter != 'X':
         context['is_patient_filter'] = True
         mains = mains.filter(patient_id=patient_filter)
         # save to session
         request.session['patient_filter'] = patient_filter
         request.session['name_filter'] = 'patient'
+    else:
+        if patient_filter == 'X':
+            try:
+                del request.session['patient_filter']
+            except KeyError:
+                pass
+        from_session_patient_filter = request.session.get('patient_filter', 'all')
+        if from_session_patient_filter != 'all':
+            context['is_patient_filter'] = True
+            mains = mains.filter(patient_id=from_session_patient_filter)
+        else:
+            context['is_patient_filter'] = False
+    doctors = models.Doctor.objects.all()
+    if doctors.count() > 5:
+        context['doctor_paginated'] = True
+    else:
+        context['doctor_paginated'] = False
+    page_doctor = request.GET.get('page_doctor', 1)
+    doctor_paginator = Paginator(doctors, 5)
+    try:
+        doctor_list = doctor_paginator.page(page_doctor)
+    except PageNotAnInteger:
+        doctor_list = doctor_paginator.page(1)
+    except EmptyPage:
+        doctor_list = doctor_paginator.page(doctor_paginator.num_pages)
+    context['doctors'] = doctor_list
+    doctor_filter = request.GET.get("doctor", 'all')
+    if doctor_filter != 'all' and doctor_filter != '' and doctor_filter != 'X':
+        context['is_doctor_filter'] = True
+        mains = mains.filter(doctor_id=doctor_filter)
+        # save to session
+        request.session['doctor_filter'] = doctor_filter
+        request.session['name_filter1'] = 'doctor'
+    else:
+        if doctor_filter == 'X':
+            try:
+                del request.session['doctor_filter']
+            except KeyError:
+                pass
+        from_session_doctor_filter = request.session.get('doctor_filter', 'all')
+        if from_session_doctor_filter != 'all':
+            context['is_doctor_filter'] = True
+            mains = mains.filter(doctor_id=from_session_doctor_filter)
+        else:
+            context['is_doctor_filter'] = False
+            request.session['doctor_filter'] = 'all'
     page = request.GET.get('page', '1')
-    name_filter = request.session.get('name_filter', '')
-    from_session_patient_filter = request.session.get('patient_filter', 'all')
-    if name_filter != '':
-        context['name_filter'] = "&" + name_filter + "="
-    if from_session_patient_filter != 'all':
-        context['is_patient_filter'] = True
-        mains = mains.filter(patient_id=from_session_patient_filter)
+    # name_filter = request.session.get('name_filter', '')
+    # name_filter1 = request.session.get('name_filter1', '')
+    # from_session_patient_filter = request.session.get('patient_filter', 'all')
+    # from_session_doctor_filter = request.session.get('doctor_filter', 'all')
+    # if name_filter != '':
+    #     context['name_filter'] = "&" + name_filter + "="
+    # if name_filter1 != '':
+    #     context['name_filter1'] = "&" + name_filter1 + "="
+    # if from_session_patient_filter != 'all':
+    #     context['is_patient_filter'] = True
+    #     mains = mains.filter(patient_id=from_session_patient_filter)
+    # if from_session_doctor_filter != 'all':
+    #     context['is_patient_filter'] = True
+    #     mains = mains.filter(doctor_id=from_session_doctor_filter)
     if page == 'all':
         context['main_list'] = mains
     else:

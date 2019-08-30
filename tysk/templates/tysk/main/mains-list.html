@@ -7,10 +7,93 @@
     <header class="page-header bg-img">
       <div class="container no-shadow">
         <h4 class="text-center">Головний список</h4>
-        <p class="lead text-left">Фільтр
-            {{ form }}
+        <p class="text-center">
+{#            {{ form }}#}
             Бажаємо Вам здоров`я!</p>
+          {% if user.is_authenticated %}
+              <p class="text-center">
+              {% for patient in patients %}
+                  {% if is_doctor_filter %}
+                      <a href="?patient={{ patient.id }}&doctor={{ request.sesion.doctor_filter }}"
+                         title="Фільтр по паціенту">{{ patient }}</a>
+                  {% else %}
+                      <a href="?patient={{ patient.id }}" title="Фільтр по паціенту">{{ patient }}</a>
+                  {% endif %}
+                {% endfor %}
+
+                {% if patient_paginated %}
+                    <span aria-label="patients pagination">
+                        <span class="pagination">
+                          {% if patients.has_previous %}
+                            <span class="page-item">
+                              <a class="page-link" href="?page_patient={{ patients.previous_page_number }}"
+                                 title="Попередній"> < </a>
+                            </span>
+                          {% else %}
+                            <span class="page-item disabled">
+                              <span class="page-link" title="Початок списку"><</span>
+                            </span>
+                          {% endif %}
+
+                          {% if patients.has_next %}
+                            <span class="page-item">
+                              <a class="page-link" href="?page_patient={{ patients.next_page_number }}"
+                                 title="Наступний">></a>
+                            </span>
+                          {% else %}
+                            <span class="page-item disabled">
+                              <span class="page-link" title="Список закінчився"> > </span>
+                            </span>
+                          {% endif %}
+                        </span>
+                    </span> <a href="?patient=X">X</a> <br>
+                {% else %} <a href="?patient=X">X</a> <hr class="no-margin">
+                {% endif %}
+              </p>
+                <p class="text-center">
+                    {% for doctor in doctors %}
+                        {% if is_patient_filter %}
+                            <a href="?doctor={{ doctor.id }}&patient={{ request.session.patient_filter }}">{{ doctor }}
+                            </a>
+                        {% else %}
+                            <a href="?doctor={{ doctor.id }}" title="Фільтр по лікарю">
+                            {{ doctor }}</a>
+                        {% endif %}
+                    {% endfor %}
+                    {% if doctor_paginated %}
+                        <span aria-label="doctorss pagination">
+                            <span class="pagination">
+                                {% if doctors.has_previous %}
+                                    <span class="page-item">
+                                        <a class="page-link" href="?page_doctor={{ doctors.previous_page_number }}"
+                                        title="Попередній">
+                                            <
+                                        </a>
+                                    </span>
+                                {% else %}
+                                    <span class="page-item disabled">
+                                      <span class="page-link" title="Початок списку"><</span>
+                                    </span>
+                                {% endif %}
+                                {% if doctors.has_next %}
+                                    <span class="page-item">
+                                        <a class="page-link" href="?page_doctor={{ doctors.next_page_number }}"
+                                           title="Наступний">
+                                            >
+                                        </a>
+                                    </span>
+                                {% else %}
+                                    <span class="page-item disabled">
+                                      <span class="page-link" title="Список закінчився"> > </span>
+                                    </span>
+                                {% endif %}
+                            </span>
+                        </span>
+                    {% endif %} <a href="?doctor=X">X</a>
+                </p>
+          {% endif %}
       </div>
+
     </header>
     <!-- END Site header -->
 {% endblock %}
@@ -22,35 +105,7 @@
 
           <div class="container login-block">
             {% if user.is_authenticated %}
-                {% for patient in patients %}
-                    <a href="?patient={{ patient.id }}">{{ patient }}</a>
-                {% endfor %} <br>
-                {% if patient_paginated %}
-                    <nav aria-label="patients pagination" class="mb-4">
-                        <ul class="pagination">
-                          {% if patients.has_previous %}
-                            <li class="page-item">
-                              <a class="page-link" href="?page_patient={{ patients.previous_page_number }}">Previous</a>
-                            </li>
-                          {% else %}
-                            <li class="page-item disabled">
-                              <span class="page-link">Previous</span>
-                            </li>
-                          {% endif %}
 
-                          {% if patients.has_next %}
-                            <li class="page-item">
-                              <a class="page-link" href="?page_patient={{ patients.next_page_number }}">Наст.</a>
-                            </li>
-                          {% else %}
-                            <li class="page-item disabled">
-                              <span class="page-link">Наст.</span>
-                            </li>
-                          {% endif %}
-                        </ul>
-                    </nav>
-
-                {% endif %}
             {% if main_list %}
 
 
@@ -106,12 +161,26 @@
 {#                                    {{ page_num }}#}
 {#                                </button>#}
                                   {% if is_patient_filter %}
-                                      <a class="page-link"
-                                         href="?page={{ page_num }}&patient={{ request.session.patient_filter }}">
+                                      {% if is_doctor_filter %}
+                                          <a class="page-link"
+    href="?page={{ page_num }}&patient={{ request.session.patient_filter }}&doctor={{ request.session.doctor_filter }}">
                                           {{ page_num }}
-                                      </a>
+                                            </a>
+                                      {% else %}
+                                          <a class="page-link"
+                                            href="?page={{ page_num }}&patient={{ request.session.patient_filter }}">
+                                          {{ page_num }}
+                                            </a>
+                                          {% endif %}
                                   {% else %}
-                                      <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                                      {% if is_doctor_filter %}
+                                          <a class="page-link"
+                                             href="?page={{ page_num }}&doctor={{ request.session.doctor_filter }}">
+                                              {{ page_num }}</a>
+                                      {% else %}
+                                          <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                                      {% endif %}
+
                                   {% endif %}
                               </li>
                             {% endif %}

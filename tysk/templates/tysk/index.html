@@ -92,10 +92,15 @@
                         <a href="#">Головна</a>
                     {% endif %}
                     <ul>
-                        {% if active == 'mains-list' %}
-                            <li><a class="active" href="{% url 'tysk:mains-list' %}">Список</a> </li>
+{#                        {% if active == 'mains-list' %}#}
+{#                            <li><a class="active" href="{% url 'tysk:mains-list' %}">Список</a> </li>#}
+{#                        {% else %}#}
+{#                            <li><a href="{% url 'tysk:mains-list' %}">Список</a> </li>#}
+{#                        {% endif %}#}
+                        {% if active == 'mains-list-filter' %}
+                            <li><a class="active" href="{% url 'tysk:main-filter' %}">Список з фільтрами</a> </li>
                         {% else %}
-                            <li><a href="{% url 'tysk:mains-list' %}">Список</a> </li>
+                            <li><a href="{% url 'tysk:main-filter' %}">Список з фільтрами</a> </li>
                         {% endif %}
                         {% if active == 'main-add'%}
                             <li><a class="active"  href="{% url 'tysk:main-add' %}">Додати</a> </li>
@@ -204,7 +209,7 @@
                       {% if not main_form.is_valid and main_form.errors and main_form.email.errors %}
                           <ul class="errorlist"><li></li></ul>
                       {% endif %}
-                      <button name="send_email" class="btn btn-block btn-primary" type="submit">Надіслати на вказаний email</button>
+                      <button name="send_email" class="btn btn-block btn-primary" type="submit">Надіслати на email</button>
                       <!--a href="doctor-list.html">Ще</a-->
                   </div>
                   <div class="input-location col-xs-12 col-sm-4">
