@@ -47,7 +47,10 @@
                           {% endif %}
                         </span>
                     </span> <a href="?patient=X">X</a> <br>
-                {% else %} <a href="?patient=X">X</a> <hr class="no-margin">
+                {% else %}
+                    {% if active == 'mains-list-filter' %}
+                        <a href="?patient=X">X</a> <hr class="no-margin">
+                    {% endif %}
                 {% endif %}
               </p>
                 <p class="text-center">
@@ -89,7 +92,10 @@
                                 {% endif %}
                             </span>
                         </span>
-                    {% endif %} <a href="?doctor=X">X</a>
+                    {% endif %}
+                    {% if active == 'mains-list-filter' %}
+                        <a href="?doctor=X">X</a>
+                    {% endif %}
                 </p>
           {% endif %}
       </div>
@@ -107,7 +113,6 @@
             {% if user.is_authenticated %}
 
             {% if main_list %}
-
 
                 <span id="result">
                     {% for main_item in main_list %}
@@ -154,34 +159,7 @@
                               </li>
                             {% else %}
                               <li class="page-item">
-{#                                <button class="page-link"#}
-{#                                   href="?page={{ page_num }}{{ part_ajax_page_link }}" onclick="">#}
-{#                                   href="?page_ajax={{ page_num }}{{ part_ajax_page_link }}"#}
-{#                                   onclick="js_paginator({{ page_num }}, {{ patient_filter }})">#}
-{#                                    {{ page_num }}#}
-{#                                </button>#}
-                                  {% if is_patient_filter %}
-                                      {% if is_doctor_filter %}
-                                          <a class="page-link"
-    href="?page={{ page_num }}&patient={{ request.session.patient_filter }}&doctor={{ request.session.doctor_filter }}">
-                                          {{ page_num }}
-                                            </a>
-                                      {% else %}
-                                          <a class="page-link"
-                                            href="?page={{ page_num }}&patient={{ request.session.patient_filter }}">
-                                          {{ page_num }}
-                                            </a>
-                                          {% endif %}
-                                  {% else %}
-                                      {% if is_doctor_filter %}
-                                          <a class="page-link"
-                                             href="?page={{ page_num }}&doctor={{ request.session.doctor_filter }}">
-                                              {{ page_num }}</a>
-                                      {% else %}
-                                          <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
-                                      {% endif %}
-
-                                  {% endif %}
+                                <a class="page-link" href="?page={{ page_num }}{{ session_parameters_string }}">{{ page_num }}</a>
                               </li>
                             {% endif %}
                           {% endfor %}

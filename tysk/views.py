@@ -750,7 +750,41 @@ class DoctorDetail(generic.DetailView):
         return context
 
 
-class MainsList(MultipleObjectMixin, TemplateResponseMixin, View):
+class MainsList(generic.ListView):
+    model = models.Main
+    template_name = 'tysk/main/mains-list.html'
+    paginate_by = 50
+
+    def get_context_data(self, **kwargs):
+        context = super(MainsList, self).get_context_data(**kwargs)
+        context['active'] = 'mains-list'
+        return context
+
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return index(self.request)
+        qs = super(MainsList, self).get_queryset()
+        if self.request.user.is_superuser:
+            return qs
+        # medicament_1 = Medicament.objects.all().get(id=1)
+        # for i in range(10):
+        #     for patient_item in Patient.objects.all():
+        #         for doctor_item in Doctor.objects.all():
+        #             Main.objects.create(patient=patient_item, doctor=doctor_item, upper=110 + i, lower=70 + i,
+        #                                 pulse=60 + i, medicament=medicament_1)
+        qs = qs.filter(
+            Q(patient__user=self.request.user) | Q(doctor__user=self.request.user) | Q(owner=self.request.user))
+        return qs.order_by('-date', '-time')
+
+    def get(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return index(self.request)
+        self.object_list = self.get_queryset()
+        context = self.get_context_data(**kwargs)
+        return render(self.request, self.template_name, context)
+
+
+class MainsListOld(MultipleObjectMixin, TemplateResponseMixin, View):
     # class MainsList(generic.ListView):
     # class MainsList(AjaxListView):
     model = models.Main
@@ -761,17 +795,18 @@ class MainsList(MultipleObjectMixin, TemplateResponseMixin, View):
     extra_context = {'patient_filter': ''}
 
     def get_context_data(self, **kwargs):
-        context = super(MainsList, self).get_context_data(**kwargs)
+        context = super(MainsListOld, self).get_context_data(**kwargs)
         context['active'] = 'mains-list'
         form = forms.PatientChooseMainForm()
         context['form'] = form
         context['part_ajax_page_link'] = ""
         return context
 
+
     def get_queryset(self):
         if not self.request.user.is_authenticated:
             return index(self.request)
-        qs = super(MainsList, self).get_queryset()
+        qs = super(MainsListOld, self).get_queryset()
         if self.request.user.is_superuser:
             return qs
         # medicament_1 = Medicament.objects.all().get(id=1)
@@ -1237,11 +1272,11 @@ def main_filter(request):
     # This is the pagination for the patient filter
     patients = models.Patient.objects.all()
     page_patient = request.GET.get('page_patient', 1)
-    if patients.count() > 5:
+    if patients.count() > 10:
         context['patient_paginated'] = True
     else:
         context['patient_paginated'] = False
-    patient_paginator = Paginator(patients, 5)
+    patient_paginator = Paginator(patients, 10)
     try:
         patient_list = patient_paginator.page(page_patient)
     except PageNotAnInteger:
@@ -1271,12 +1306,12 @@ def main_filter(request):
         else:
             context['is_patient_filter'] = False
     doctors = models.Doctor.objects.all()
-    if doctors.count() > 5:
+    if doctors.count() > 10:
         context['doctor_paginated'] = True
     else:
         context['doctor_paginated'] = False
     page_doctor = request.GET.get('page_doctor', 1)
-    doctor_paginator = Paginator(doctors, 5)
+    doctor_paginator = Paginator(doctors, 10)
     try:
         doctor_list = doctor_paginator.page(page_doctor)
     except PageNotAnInteger:
@@ -1305,25 +1340,11 @@ def main_filter(request):
             context['is_doctor_filter'] = False
             request.session['doctor_filter'] = 'all'
     page = request.GET.get('page', '1')
-    # name_filter = request.session.get('name_filter', '')
-    # name_filter1 = request.session.get('name_filter1', '')
-    # from_session_patient_filter = request.session.get('patient_filter', 'all')
-    # from_session_doctor_filter = request.session.get('doctor_filter', 'all')
-    # if name_filter != '':
-    #     context['name_filter'] = "&" + name_filter + "="
-    # if name_filter1 != '':
-    #     context['name_filter1'] = "&" + name_filter1 + "="
-    # if from_session_patient_filter != 'all':
-    #     context['is_patient_filter'] = True
-    #     mains = mains.filter(patient_id=from_session_patient_filter)
-    # if from_session_doctor_filter != 'all':
-    #     context['is_patient_filter'] = True
-    #     mains = mains.filter(doctor_id=from_session_doctor_filter)
     if page == 'all':
         context['main_list'] = mains
     else:
         context['is_paginated'] = True
-        paginator = Paginator(mains.order_by('id'), 30)
+        paginator = Paginator(mains.order_by('id'), 50)
         try:
             main_list = paginator.page(page)
         except PageNotAnInteger:
@@ -1334,6 +1355,12 @@ def main_filter(request):
             main_list = paginator.page(paginator.num_pages)
         context['main_list'] = main_list
         context['paginator'] = paginator
-
+    session_parameters_string = ''
+    try:
+        for parameter_name, parameter_value in request.session:
+            session_parameters_string = session_parameters_string + '&' + parameter_name + '=' + parameter_value
+    except KeyError:
+        pass
+    context['session_parameters_string'] = session_parameters_string
     # return render(request, 'tysk/main_filter.html', context)
     return render(request, 'tysk/main/mains-list.html', context)

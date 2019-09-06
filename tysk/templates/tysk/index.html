@@ -92,15 +92,17 @@
                         <a href="#">Головна</a>
                     {% endif %}
                     <ul>
-{#                        {% if active == 'mains-list' %}#}
-{#                            <li><a class="active" href="{% url 'tysk:mains-list' %}">Список</a> </li>#}
-{#                        {% else %}#}
-{#                            <li><a href="{% url 'tysk:mains-list' %}">Список</a> </li>#}
-{#                        {% endif %}#}
-                        {% if active == 'mains-list-filter' %}
+                        {% if active == 'mains-list' %}
+                            <li><a class="active" href="{% url 'tysk:mains-list' %}">Список</a> </li>
+                        {% else %}
+                            <li><a href="{% url 'tysk:mains-list' %}">Список</a> </li>
+                        {% endif %}
+                        {% if active == 'mains-list-filter' and user.is_superuser %}
                             <li><a class="active" href="{% url 'tysk:main-filter' %}">Список з фільтрами</a> </li>
                         {% else %}
-                            <li><a href="{% url 'tysk:main-filter' %}">Список з фільтрами</a> </li>
+                            {% if user.is_superuser %}
+                                <li><a href="{% url 'tysk:main-filter' %}">Список з фільтрами</a> </li>
+                            {% endif %}
                         {% endif %}
                         {% if active == 'main-add'%}
                             <li><a class="active"  href="{% url 'tysk:main-add' %}">Додати</a> </li>
