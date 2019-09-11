@@ -59,6 +59,8 @@ def auth_or_create(request):
 def index(request):
     # початкова
     context = {'active': 'index'}
+    number_of_users = [ number_of_users for number_of_users in range(919, 1149)]
+    context['number_of_users'] = number_of_users
     user = request.user
     if not request.user.is_authenticated:
         create_user_self(request)
@@ -774,6 +776,22 @@ class MainsList(generic.ListView):
         #                                 pulse=60 + i, medicament=medicament_1)
         qs = qs.filter(
             Q(patient__user=self.request.user) | Q(doctor__user=self.request.user) | Q(owner=self.request.user))
+        try:
+            print(self.request.user)
+            doctor = models.Doctor.objects.get(user=self.request.user)
+        except:
+            print('except doctor!')
+            return qs.order_by('-date', '-time')
+        try:
+            patients_of_doctor = doctor.patients.all()
+        except:
+            print('except patients_of_doctor!')
+            return qs.order_by('-date', '-time')
+        try:
+            qs = qs.filter(patient__in=patients_of_doctor, doctor=doctor)
+        except:
+            print('except qs!')
+            return qs.order_by('-date', '-time')
         return qs.order_by('-date', '-time')
 
     def get(self, request, *args, **kwargs):
