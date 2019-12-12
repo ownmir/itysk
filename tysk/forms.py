@@ -84,7 +84,8 @@ class UserPasswordResetForm(forms.Form):
         domain = current_site.domain
 
         context = {'email': email,
-                   'uname': urlsafe_base64_encode(force_bytes(username)).decode(),
+                   # 'uname': urlsafe_base64_encode(force_bytes(username)).decode(),
+                   'uname': urlsafe_base64_encode(force_bytes(username)),
                    'token': default_token_generator.make_token(user_object),
                    'protocol': 'http',
                    'domain': domain}

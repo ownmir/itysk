@@ -47,16 +47,16 @@ class SuccessfulUserResetPasswordTests(TestCase):
         self.response = self.client.post(self.url, {'username': 'trinity@zion.net', 'email': 'trinity@zion.net'})
 
     def test_redirection(self):
-        self.assertRedirects(self.response, reverse('tysk:login'))
+        self.assertRedirects(self.response, reverse('tysk:user-reset-password-done'))
 
 
 class InvalidUserResetPasswordTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='tank@zion.net', email='tank@zion.net', password='mtrxai6ver')
         self.client.login(username='tank@zion.net', password='mtrxai6ver')
-        print('self.user.username', self.user.username, self.user.pk, 'InvalidUserResetPasswordTests')
+        # print('self.user.username', self.user.username, self.user.email, 'InvalidUserResetPasswordTests')
         form = UserPasswordResetForm(data={'username': self.user.username, 'email': self.user.email})
-        self.url = reverse('tysk:user-reset-password', kwargs={'username': 'trinity@zion.net'})
+        self.url = reverse('tysk:user-reset-password', kwargs={'username': 'tank@zion.net'})
         self.response = self.client.post(self.url, {'form_user': form})
 
     def test_reset_password_status_code(self):

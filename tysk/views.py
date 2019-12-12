@@ -504,7 +504,7 @@ class UserDelete(generic.DeleteView):
 
 def logout(request):
     auth_logout(request)
-    return render(request, 'tysk/index.html')
+    return index(request)
 
 
 def about(request):
